@@ -1,82 +1,87 @@
-import { Text, SafeAreaView, StyleSheet,View,Image, ImageBackground,TouchableHighlight } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-//import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { Text, SafeAreaView, StyleSheet, View, Image, ImageBackground, TouchableHighlight } from 'react-native';
+import { useNavigation, useFocusEffect  } from '@react-navigation/native';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { useFonts } from 'expo-font';
 
-import { useFonts} from 'expo-font';
-
-
-//esse seria o pai
 export default function TelaInicial() {
   const navi = useNavigation();
- 
-  let [fontsLoaded, fontError] = useFonts({
+
+  // fonte
+  let [fontsLoaded] = useFonts({
     'BrunoAce-Regular': require('../assets/fonts/BrunoAce-Regular.ttf'),
   });
 
-  if (!fontsLoaded && !fontError) {
-    return null;
+  if (!fontsLoaded) {
+    return null; 
   }
 
-//buton
-   
-  //const [isPressed, setIsPressed] = (false);
+  // animacao da bolinha
+  const larguraAnimada = useSharedValue(10);
 
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      width: larguraAnimada.value, 
+      height: 20,
+      backgroundColor: '#174738',
+      borderRadius: 50,
+    };
+  });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Resetar o valor da animação quando a tela é exibida
+      larguraAnimada.value = 20;
+      const iniciarAnimacao = () => {
+        larguraAnimada.value = withTiming(70, { duration: 1000 });
+      };
+  
+      iniciarAnimacao();
+  
+    }, [])
+  );
   return (
     <SafeAreaView style={styles.container}>
-<ImageBackground source={require('../assets/fundo1.png')} style={styles.image}>
-<View style={styles.cima}>
- 
-    <Image style={styles.img} source={require('../assets/frame1.png')}></Image>
-      
-</View>
+      <ImageBackground source={require('../assets/fundo1.png')} style={styles.image}>
+        <View style={styles.cima}>
+          <Image style={styles.img} source={require('../assets/frame1.png')}></Image>
+        </View>
 
+        <View style={styles.containertexto}>
+          <Text style={styles.titulo}>
+            PROTEÇÃO E SEGURANÇA
+          </Text>
+          <Text style={styles.texto}>
+            Para uma maior segurança no estabelecimento educacional.
+          </Text>
+          <View style={styles.bolinhasContainer}>
+          
+          <Animated.View style={animatedStyle} />
 
-<View style={styles.containertexto}>
+            <View style={styles.Bolinha}></View>
+            <View style={styles.Bolinha}></View>
+          </View>
 
-<Text style={styles.titulo}>
-      PROTEÇÃO E SEGURANÇA
-      </Text> 
-
-       <Text style={styles.texto}>
-      Para uma maior segurança no estabelecimento educacional.
-      </Text>
-
- <View>
-
-
- <View style={styles.bolinhasContainer}>
-
-<View style={styles.Banimation1}></View>
-<View style={styles.Bolinha}></View>
-<View style={styles.Bolinha}></View>
-
-
-</View>
-
-<View style={styles.containerbutton}>
- <TouchableHighlight style={styles.button && styles.buttonHover}
-       onPress={() => {
-       // setIsPressed(true);
-       // setTimeout(() => setIsPressed(false), 100); 
-        navi.navigate('Tela2Screen');
-      }}
-      underlayColor={styles.buttonHover.backgroundColor} >
-      <View style={styles.buttonTop}>
-        <Text style={styles.txt}>Próximo</Text>
-      </View>
-    </TouchableHighlight>
-</View>
- 
-
-    </View>
-
-</View>
-
-   </ImageBackground>
+          <View style={styles.containerbutton}>
+            <TouchableHighlight
+              style={styles.button && styles.buttonHover}
+              onPress={() => {
+                navi.navigate('Tela2Screen');
+              }}
+              underlayColor={styles.buttonHover.backgroundColor}
+            >
+              <View style={styles.buttonTop}>
+                <Text style={styles.txt}>Próximo</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
-    
   );
 }
+
+
 
 
 const styles = StyleSheet.create({
@@ -172,12 +177,7 @@ backgroundColor: '#e8e8e8',
   height:20,
   backgroundColor:'#5D3587',
 },
-Banimation1:{
-  width:70,
-  borderRadius:50,
-  height:20,
-  backgroundColor:'#174738',
-}
+
  
   
 });

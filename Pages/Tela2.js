@@ -1,5 +1,8 @@
 import { Text, SafeAreaView, StyleSheet,View,Image,Button, ImageBackground,TouchableHighlight } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { useNavigation, useFocusEffect  } from '@react-navigation/native';
+
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 //import React, { useState } from 'react';
 
 import { useFonts} from 'expo-font';
@@ -17,10 +20,30 @@ export default function Tela2Screen() {
     return null;
   }
 
-//buton
-   
-  //const [isPressed, setIsPressed] = useState(false);
+  // animacao da bolinha
+  const larguraAnimada = useSharedValue(10);
 
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      width: larguraAnimada.value, 
+      height: 20,
+      backgroundColor: '#174738',
+      borderRadius: 50,
+    };
+  });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      
+      larguraAnimada.value = 20;
+      const iniciarAnimacao = () => {
+        larguraAnimada.value = withTiming(70, { duration: 1000 });
+      };
+  
+      iniciarAnimacao();
+  
+    }, [])
+  );
   return (
     <SafeAreaView style={styles.container}>
 <ImageBackground source={require('../assets/fundo2.png')} style={styles.image}>
@@ -47,7 +70,7 @@ export default function Tela2Screen() {
  <View style={styles.bolinhasContainer}>
 
 <View style={styles.Bolinha}></View>
-<View style={styles.Bolinha}></View>
+<Animated.View style={animatedStyle} />
 <View style={styles.Bolinha}></View>
 
 

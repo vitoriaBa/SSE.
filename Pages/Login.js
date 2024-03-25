@@ -27,12 +27,11 @@ export default function LoginScreen() {
 //const [isPressed, setIsPressed] = useReducer(false);
   return (
     <SafeAreaView style={styles.container}>
-<ImageBackground source={require('../assets/fundo1.png')} style={styles.image}>
+<ImageBackground source={require('../assets/fundoLogin.png')} style={styles.image}>
 
 <View style={styles.cima}>
  
-    <Image style={styles.img} source={require('../assets/Logo.png')}></Image>
-      
+ 
 </View>
 
 
