@@ -61,7 +61,7 @@ export default function LoginScreen() {
 
  <View>
  <View style={styles.containerbutton}>
- <TouchableHighlight style={styles.button && styles.buttonHover}
+ <TouchableHighlight style={styles.buttonTop && styles.buttonHover}
        onPress={() => {
         //setIsPressed(true);
        // setTimeout(() => setIsPressed(false), 100); // Reinicia o estado após 100ms
@@ -70,7 +70,7 @@ export default function LoginScreen() {
       underlayColor={styles.buttonHover.backgroundColor} // Cor de fundo quando pressionado
     >
       <View style={styles.buttonTop}>
-        <Text>Entrar</Text>
+        <Text style={styles.txt}>Entrar</Text>
       </View>
     </TouchableHighlight>
 </View>
@@ -123,9 +123,9 @@ const styles = StyleSheet.create({
     fontFamily:'BrunoAce-Regular',
   },
   txt:{
-marginLeft:45,
-    fontSize: 16,
+    fontSize: 20,
 fontFamily:'BrunoAce-Regular',
+color:'#e8e8e8',
 
   },
   containertexto:{

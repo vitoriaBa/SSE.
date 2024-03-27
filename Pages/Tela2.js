@@ -37,7 +37,7 @@ export default function Tela2Screen() {
       
       larguraAnimada.value = 20;
       const iniciarAnimacao = () => {
-        larguraAnimada.value = withTiming(70, { duration: 1000 });
+        larguraAnimada.value = withTiming(70, { duration: 500 });
       };
   
       iniciarAnimacao();
@@ -86,7 +86,7 @@ export default function Tela2Screen() {
       underlayColor={styles.buttonHover.backgroundColor} 
     >
       <View style={styles.buttonTop}>
-        <Text>Próximo</Text>
+        <Text style={styles.txt}> Próximo</Text>
       </View>
     </TouchableHighlight>
 
@@ -100,7 +100,7 @@ export default function Tela2Screen() {
       underlayColor={styles.buttonHover.backgroundColor} 
     >
       <View style={styles.buttonTop2}>
-        <Text>Voltar</Text>
+        <Text style={styles.txt2}>Voltar</Text>
       </View>
     </TouchableHighlight>
 </View>
@@ -171,6 +171,7 @@ fontFamily:'BrunoAce-Regular',
     backgroundColor: '#236E57',
     borderColor: '#174738',
     fontSize: 17,
+    color: '#FFFFFF',
     fontFamily:'BrunoAce-Regular',
   },
   buttonTop: {
@@ -180,9 +181,9 @@ fontFamily:'BrunoAce-Regular',
     alignItems: 'center', 
     borderRadius: 12, 
     borderWidth: 2,
+    borderBottomWidth:5,
     borderColor: '#174738', 
     backgroundColor: '#236E57', 
-    color: '#000000',
     transform: [{ translateY: -5 }], 
   },
   buttonTop2: {
@@ -193,9 +194,9 @@ fontFamily:'BrunoAce-Regular',
     alignItems: 'center', 
     borderRadius: 12, 
     borderWidth: 2,
+    borderBottomWidth:5,
     borderColor: '#174738', 
     backgroundColor: '#FFFFFF', 
-    color: '#000000',
     transform: [{ translateY: -5 }], 
   },
   buttonHover: {
@@ -206,12 +207,12 @@ fontFamily:'BrunoAce-Regular',
   display: 'flex', 
   justifyContent: 'center', 
   alignItems: 'center', 
-  flexDirection:'row',
+  flexDirection:'row-reverse',
   justifyContent:'space-around',
   marginTop:20,
   width:350,
     height:70,
-   backgroundColor: '#e8e8e8', 
+  
  },
  bolinhasContainer:{
   flexDirection:'row',
@@ -219,16 +220,28 @@ fontFamily:'BrunoAce-Regular',
   justifyContent: 'center', 
   alignItems: 'center', 
   justifyContent:'space-evenly',
-backgroundColor: '#e8e8e8',
+
   marginTop:20,
   width:350,
     height:40,
+},
+txt:{
+  fontSize: 15,
+fontFamily:'BrunoAce-Regular',
+color:'#FFFFFF',
+
+},
+txt2:{
+  fontSize: 15,
+fontFamily:'BrunoAce-Regular',
+color:'#174738',
+
 },
  Bolinha:{
   width:20,
   borderRadius:50,
   height:20,
-  backgroundColor:'#5D3587',
+  backgroundColor:'#e8e8e8',
 }
  
   

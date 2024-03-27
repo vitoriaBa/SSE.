@@ -41,7 +41,8 @@ import {Text,View, SafeAreaView, StyleSheet,Image,TouchableOpacity } from 'react
     alignItems:'center',
     flexDirection:'column',
     padding: 0,
-   // position:'absolute',
+    borderWidth:20,
+     borderColor:'#174738',
     margin:0,
  
   },

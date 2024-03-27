@@ -33,7 +33,7 @@ export default function TelaInicial() {
       // Resetar o valor da animação quando a tela é exibida
       larguraAnimada.value = 20;
       const iniciarAnimacao = () => {
-        larguraAnimada.value = withTiming(70, { duration: 1000 });
+        larguraAnimada.value = withTiming(70, { duration: 500 });
       };
   
       iniciarAnimacao();
@@ -64,7 +64,7 @@ export default function TelaInicial() {
 
           <View style={styles.containerbutton}>
             <TouchableHighlight
-              style={styles.button && styles.buttonHover}
+              style={styles.buttonTop && styles.buttonHover}
               onPress={() => {
                 navi.navigate('Tela2Screen');
               }}
@@ -141,14 +141,15 @@ color:'#e8e8e8',
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 12, 
-    borderWidth: 5,
+    borderWidth: 2,
+    borderBottomWidth:5,
     borderColor: '#174738', 
     backgroundColor: '#206550', 
     color: '#000000',
     transform: [{ translateY: -5 }], 
   },
   buttonHover: {
-    borderRadius: 12, 
+    borderRadius:10,
     transform: [{ translateY: -9 }],
   },
  containerbutton:{
@@ -158,7 +159,7 @@ color:'#e8e8e8',
   marginTop:20,
   width:350,
     height:70,
-   // backgroundColor: '#e8e8e8', 
+   
  },
  bolinhasContainer:{
   flexDirection:'row',
@@ -166,7 +167,7 @@ color:'#e8e8e8',
   justifyContent: 'center', 
   alignItems: 'center', 
   justifyContent:'space-evenly',
-backgroundColor: '#e8e8e8',
+
   marginTop:20,
   width:350,
     height:40,
@@ -175,7 +176,7 @@ backgroundColor: '#e8e8e8',
   width:20,
   borderRadius:50,
   height:20,
-  backgroundColor:'#5D3587',
+  backgroundColor:'#e8e8e8',
 },
 
  
