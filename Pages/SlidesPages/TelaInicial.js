@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react'; 
 import { Text, SafeAreaView, StyleSheet, View, Image, ImageBackground, TouchableHighlight } from 'react-native';
 import { useNavigation, useFocusEffect  } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
@@ -9,7 +9,7 @@ export default function TelaInicial() {
 
   // fonte
   let [fontsLoaded] = useFonts({
-    'BrunoAce-Regular': require('../assets/fonts/BrunoAce-Regular.ttf'),
+    'BrunoAce-Regular': require('../../assets/fonts/BrunoAce-Regular.ttf'),
   });
 
   if (!fontsLoaded) {
@@ -27,24 +27,28 @@ export default function TelaInicial() {
       borderRadius: 50,
     };
   });
+  const iniciarAnimacao = () => {
+    larguraAnimada.value = withTiming(70, { duration: 500 });
+  };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      // Resetar o valor da animação quando a tela é exibida
-      larguraAnimada.value = 20;
-      const iniciarAnimacao = () => {
-        larguraAnimada.value = withTiming(70, { duration: 500 });
-      };
-  
-      iniciarAnimacao();
+ useFocusEffect(
+  React.useCallback(() => {
+   
+    if (!larguraAnimada) return;
+
+    larguraAnimada.value = 20;
+
+
+
+    iniciarAnimacao();
   
     }, [])
   );
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground source={require('../assets/fundo1.png')} style={styles.image}>
+      <ImageBackground source={require('../../assets/fundo1.png')} style={styles.image}>
         <View style={styles.cima}>
-          <Image style={styles.img} source={require('../assets/frame1.png')}></Image>
+          <Image style={styles.img} source={require('../../assets/frame1.png')}></Image>
         </View>
 
         <View style={styles.containertexto}>

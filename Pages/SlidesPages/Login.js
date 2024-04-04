@@ -1,6 +1,6 @@
-import { Text, SafeAreaView, StyleSheet,View,Image,TouchableHighlight,ImageBackground, TextInput } from 'react-native';
+import { Text, SafeAreaView, StyleSheet,View,Image,TouchableOpacity,ImageBackground, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React, { useStater,useState } from 'react';
+import React, {useState } from 'react';
 
 import { useFonts} from 'expo-font';
 
@@ -16,18 +16,16 @@ export default function LoginScreen() {
  
 
   let [fontsLoaded, fontError] = useFonts({
-    'BrunoAce-Regular': require('../assets/fonts/BrunoAce-Regular.ttf'),
+    'BrunoAce-Regular': require('../../assets/fonts/BrunoAce-Regular.ttf'),
   });
 
   if (!fontsLoaded && !fontError) {
     return null;
   }
 
-//buton
-//const [isPressed, setIsPressed] = useReducer(false);
   return (
     <SafeAreaView style={styles.container}>
-<ImageBackground source={require('../assets/fundoLogin.png')} style={styles.image}>
+<ImageBackground source={require('../../assets/fundoLogin.png')} style={styles.image}>
 
 <View style={styles.cima}>
  
@@ -61,10 +59,9 @@ export default function LoginScreen() {
 
  <View>
  <View style={styles.containerbutton}>
- <TouchableHighlight style={styles.buttonTop && styles.buttonHover}
+ <TouchableOpacity  style={styles.buttonTop && styles.buttonHover}
        onPress={() => {
-        //setIsPressed(true);
-       // setTimeout(() => setIsPressed(false), 100); // Reinicia o estado após 100ms
+       
         navi.navigate('Home');
       }}
       underlayColor={styles.buttonHover.backgroundColor} // Cor de fundo quando pressionado
@@ -72,7 +69,7 @@ export default function LoginScreen() {
       <View style={styles.buttonTop}>
         <Text style={styles.txt}>Entrar</Text>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
 </View>
     </View>
          <Text>Esqueceu sua senha</Text>

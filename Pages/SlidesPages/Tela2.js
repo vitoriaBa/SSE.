@@ -1,7 +1,6 @@
 import { Text, SafeAreaView, StyleSheet,View,Image,Button, ImageBackground,TouchableHighlight } from 'react-native';
-import React, { useEffect } from 'react';
 import { useNavigation, useFocusEffect  } from '@react-navigation/native';
-
+import React from 'react'; 
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 //import React, { useState } from 'react';
 
@@ -13,7 +12,7 @@ export default function Tela2Screen() {
   const navi = useNavigation();
  
   let [fontsLoaded, fontError] = useFonts({
-    'BrunoAce-Regular': require('../assets/fonts/BrunoAce-Regular.ttf'),
+    'BrunoAce-Regular': require('../../assets/fonts/BrunoAce-Regular.ttf'),
   });
 
   if (!fontsLoaded && !fontError) {
@@ -31,14 +30,19 @@ export default function Tela2Screen() {
       borderRadius: 50,
     };
   });
+  const iniciarAnimacao = () => {
+    larguraAnimada.value = withTiming(70, { duration: 500 });
+  };
 
   useFocusEffect(
     React.useCallback(() => {
-      
+     
+      if (!larguraAnimada) return;
+  
       larguraAnimada.value = 20;
-      const iniciarAnimacao = () => {
-        larguraAnimada.value = withTiming(70, { duration: 500 });
-      };
+  
+    
+    
   
       iniciarAnimacao();
   
@@ -46,10 +50,10 @@ export default function Tela2Screen() {
   );
   return (
     <SafeAreaView style={styles.container}>
-<ImageBackground source={require('../assets/fundo2.png')} style={styles.image}>
+<ImageBackground source={require('../../assets/fundo2.png')} style={styles.image}>
 <View style={styles.cima}>
  
-    <Image style={styles.img} source={require('../assets/frame2.png')}></Image>
+    <Image style={styles.img} source={require('../../assets/frame2.png')}></Image>
       
 </View>
 
@@ -79,8 +83,7 @@ export default function Tela2Screen() {
 <View style={styles.containerbutton}>
  <TouchableHighlight style={styles.button && styles.buttonHover}
        onPress={() => {
-        //setIsPressed(true);
-       // setTimeout(() => setIsPressed(false), 100); 
+       
         navi.navigate('Tela3Screen');
       }}
       underlayColor={styles.buttonHover.backgroundColor} 
@@ -93,8 +96,7 @@ export default function Tela2Screen() {
 
     <TouchableHighlight style={styles.button && styles.buttonHover}
        onPress={() => {
-       // setIsPressed(true);
-        //setTimeout(() => setIsPressed(false), 100);
+        
         navi.navigate('TelaInicial');
       }}
       underlayColor={styles.buttonHover.backgroundColor} 

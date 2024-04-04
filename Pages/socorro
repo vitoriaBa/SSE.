@@ -1,0 +1,157 @@
+import React from 'react';
+import {useState} from 'react';
+import {Text,View, SafeAreaView, StyleSheet,Image,TouchableOpacity } from 'react-native';
+
+import { Calendar,CalendarList,Agenda} from 'react-native-calendars';
+import { useEffect } from 'react';
+//import moment from 'moment';
+//import 'moment/locale/pt-br'; 
+
+
+ export default function Calendario(){
+  //useEffect(() => {
+    //moment.locale('pt-br'); 
+  //}, []);
+  const [selected, setSelected] = useState('');
+
+
+
+   return(
+    <SafeAreaView style={styles.fundo}>
+    <View style={styles.container}>
+    <View style={styles.containerusuario}>
+
+
+    <View style={styles.container}>
+    <Calendar
+    //dia
+      onDayPress={day => {
+        setSelected(day.dateString);
+      }}
+      markedDates={{
+        [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: '#174738'}
+      }}
+    />
+    </View>
+
+
+
+
+
+    <Text style={styles.txt}>Calendario</Text>
+    
+
+    </View>
+    </View>
+    </SafeAreaView>
+   );
+ }
+
+
+ const styles = StyleSheet.create({
+  fundo: {
+   
+    justifyContent: 'center',
+    alignItems:'center',
+    backgroundColor:'#174738',
+    padding: 0,
+    margin:0,
+    position:'absolute',
+ 
+  },
+  container:{
+    backgroundColor:'#FFFFFF',
+    width:380,
+    height:800,
+    borderRadius:50,
+    justifyContent: 'center',
+    alignItems:'center',
+    flexDirection:'column',
+    padding: 0,
+   // position:'absolute',
+    margin:0,
+ 
+  },
+  containerusuario:{
+    width:360,
+    height:168,
+    margin:0,
+    padding:0,
+    borderRadius:30,
+    justifyContent: 'center',
+    alignItems:'center',
+    position:'absolute',
+    backgroundColor:'#174738',
+
+  },
+  img:{
+    width:50,
+    marginHorizontal:120,
+    height:50,
+  },
+  usuarioimg:{
+    flexDirection:'row',
+
+  }
+
+
+} );
+
+
+
+
+import React, {useState} from 'react';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
+
+
+export default function Calendario() {
+  const [selected, setSelected] = useState('');
+
+  LocaleConfig.locales['fr'] = {
+    monthNames: [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'Octobre',
+      'Novembre',
+      'Décembre'
+    ],
+    monthNames: [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'Octobre',
+      'Novembre',
+      'Décembre'
+    ],
+    monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+    dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+    dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+    today: "Aujourd'hui"
+  };
+  return (
+    <Calendar
+    
+      onDayPress={day => {
+        setSelected(day.dateString);
+        
+      }}
+      markedDates={{
+        [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+        
+      }}
+    />
+  );
+};
