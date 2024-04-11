@@ -12,6 +12,8 @@ import Rotastab from '../TotasRotas/Rotastab';
 
 
 
+
+
 const Tab = createMaterialTopTabNavigator();
 
 export default function RotasScreen() {
@@ -23,7 +25,9 @@ export default function RotasScreen() {
         <Tab.Screen name="Tela3Screen" component={Tela3Screen} />
         <Tab.Screen name="LoginScreen" component={LoginScreen} />
         <Tab.Screen name="Rotastab" component={Rotastab} />
+
       </Tab.Navigator>
+      
      // </NavigationContainer>
   );
 }

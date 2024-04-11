@@ -1,20 +1,16 @@
 import React from 'react'; 
-import { Alert, Pressable, StyleSheet } from "react-native";
+import { Alert, Pressable, ScrollView, StyleSheet } from "react-native";
 
 import { Text, View } from "react-native";
-import {
-  Agenda,
-  AgendaEntry,
-  AgendaSchedule,
-  DateData,
-} from "react-native-calendars";
+import {Agenda,AgendaEntry,AgendaSchedule,DateData,calendario} from "react-native-calendars";
 import { useState } from "react";
-//import events from "../assets/data/events.json";
+import events from "../assets/data/events.json";
+
 
 export default function Calendario() {
   const [items,setItems] = useState([]);
 
-  const timeToString = (time) => {
+ /* const timeToString = (time) => {
     const date = new Date(time);
     return date.toISOString().split('T')[0];
   }
@@ -45,20 +41,45 @@ export default function Calendario() {
         newItems[key] = items[key];
       });
       setItems(newItems);
-    }, 1000);
-  };
-
-  const renderItem = (item) => {
+    }, 1000);*/
+  
+//eu mexi aqui
+  const renderItem = (reservation, isFirst) => {
+   
+    const fontSize = isFirst ? 16 : 14;
+    //const color = isFirst ? "black" : "#43515c";
     return (
-      //<Text>{item}</Text>
-     <TouchableOpacity>
-        <View>
-          <Card>
-          <Text></Text>
-          </Card>
+      <Pressable
+        style={[styles.item, { height: reservation.height }]}
+        onPress={() => Alert.alert(reservation.name)}
+      >
+        <Text style={{ fontSize}}>{reservation.name}</Text>
+      </Pressable>
+    );
+  };
+    return (
      
+        
+        <View style={styles.container}>
+
+          <Calendario
+           enableSwipeMonths={true}
+          >         
+          </Calendario>
+
+          <Agenda
+          style={styles.Agenda}
+                   //items
+            items={events}
+            //loadItemsForMonth={loadItems}
+           selected={"2022-11-25"}
+            renderItem={renderItem}
+            //renderEmptyDate={renderEmptyDate}
+           
+             showOnlySelectedDayItems//=>Mostra  tudo endempendente do dia escolhido          
+          />
         </View>
-     </TouchableOpacity>
+       
     );
   
   
@@ -81,10 +102,11 @@ export default function Calendario() {
     const color = isFirst ? "black" : "#43515c";
 */
   
-  return (
+  /*return (
     <View style={styles.container}>
       <Agenda
-        items={items}
+               //items
+        items={events}
         loadItemsForMonth={loadItems}
        selected={"2022-11-25"}
         renderItem={renderItem}
@@ -92,21 +114,25 @@ export default function Calendario() {
        
          showOnlySelectedDayItems
       />
-    </View>
-  );
-};
+    </View>*/
+  
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   item: {
-    backgroundColor: "white",
+    backgroundColor: '#206550',
     flex: 1,
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
     marginTop: 17,
+    color:'#206550',
+  },
+  Agenda:{
+    backgroundColor: "#206550",
   },
   emptyDate: {
     height: 15,
