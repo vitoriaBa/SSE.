@@ -2,18 +2,53 @@ import { Text, SafeAreaView, StyleSheet,View,Image,TouchableOpacity,ImageBackgro
 import { useNavigation } from '@react-navigation/native';
 import React, {useState } from 'react';
 
+
+import { getAuth} from 'firebase/auth';
+import { Initializing } from 'firebase/app';
+import Firebase from '../Firebase';
 import { useFonts} from 'expo-font';
 
+
+const auth = getAuth(Firebase);
 
 export default function LoginScreen() {
   
     const[email, setEmail]= useState('');
     const[senha, setSenha] = useState('');
-   // const[user, setUser]= useState('');
-  
+    const[user, setUser]= useState('');
+    const [initializing, setInitializing] = useState(true);
   
     const navi = useNavigation();
  
+    function login(){
+
+      // const app = initializeApp(Firebase);
+    
+      Firebase.auth().signInWithEmailAndPassword(email,senha).catch(
+        function(error){
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(errorCode, errorMessage);
+        }
+      )
+    }
+    
+    useEffect(()=>{
+     Firebase.auth().onAuthStateChanged(function(user){
+            setUser(user);
+            if(Initializing) setInitializing(false);
+         
+        });
+    },[])
+    
+    
+    
+    if(user){
+        return navigation.navigate('Home');
+    }
+    else{
+       // alert('xabu')
+    }
 
   let [fontsLoaded, fontError] = useFonts({
     'BrunoAce-Regular': require('../../assets/fonts/BrunoAce-Regular.ttf'),
@@ -60,9 +95,10 @@ export default function LoginScreen() {
  <View>
  <View style={styles.containerbutton}>
  <TouchableOpacity  style={styles.buttonTop && styles.buttonHover}
-       onPress={() => {
-       
-        navi.navigate('Home');
+     
+        onPress={()=>{
+          login();
+        //navi.navigate('Home');
       }}
       underlayColor={styles.buttonHover.backgroundColor} // Cor de fundo quando pressionado
     >
