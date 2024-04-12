@@ -1,18 +1,18 @@
 import { Text, SafeAreaView, StyleSheet,View,Image,TouchableOpacity,ImageBackground, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React, {useState } from 'react';
+import React, {useState, useEffect } from 'react';
 
 
-import { getAuth} from 'firebase/auth';
-import { Initializing } from 'firebase/app';
+import { getAuth,onAuthStateChanged,signInWithEmailAndPassword} from 'firebase/auth';
+import { Initializing} from 'firebase/app';
 import Firebase from '../Firebase';
 import { useFonts} from 'expo-font';
 
 
-const auth = getAuth(Firebase);
+
 
 export default function LoginScreen() {
-  
+  const auth = getAuth();
     const[email, setEmail]= useState('');
     const[senha, setSenha] = useState('');
     const[user, setUser]= useState('');
@@ -24,7 +24,7 @@ export default function LoginScreen() {
 
       // const app = initializeApp(Firebase);
     
-      Firebase.auth().signInWithEmailAndPassword(email,senha).catch(
+       signInWithEmailAndPassword(auth,email,senha).catch(
         function(error){
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -34,21 +34,23 @@ export default function LoginScreen() {
     }
     
     useEffect(()=>{
-     Firebase.auth().onAuthStateChanged(function(user){
+      //eu mudei muito aqui
+   onAuthStateChanged(auth, (user) =>{
             setUser(user);
             if(Initializing) setInitializing(false);
-         
+
+            if(user){
+              return navi.navigate('Home');
+          }
+          else{
+              alert('aaaaaa');
+          }
         });
-    },[])
+    },[user])
     
     
     
-    if(user){
-        return navigation.navigate('Home');
-    }
-    else{
-       // alert('xabu')
-    }
+   
 
   let [fontsLoaded, fontError] = useFonts({
     'BrunoAce-Regular': require('../../assets/fonts/BrunoAce-Regular.ttf'),
