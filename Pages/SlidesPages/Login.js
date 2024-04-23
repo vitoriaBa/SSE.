@@ -1,11 +1,12 @@
+import React from 'react'; 
+
 import { Text, SafeAreaView, StyleSheet,View,Image,TouchableOpacity,ImageBackground, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React, {useState, useEffect } from 'react';
-
+import {useState, useEffect } from 'react';
 
 import { getAuth,onAuthStateChanged,signInWithEmailAndPassword} from 'firebase/auth';
 import { Initializing} from 'firebase/app';
-import Firebase from '../Firebase';
+import Firebase from '../../Firebase';
 import { useFonts} from 'expo-font';
 
 
@@ -42,7 +43,7 @@ export default function LoginScreen() {
             if(user){
               return navi.navigate('Home');
           }
-          else{
+         else{
               alert('aaaaaa');
           }
         });

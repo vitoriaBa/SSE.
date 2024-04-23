@@ -1,8 +1,11 @@
 import {Text,View, SafeAreaView, StyleSheet,Image,TouchableOpacity } from 'react-native';
 import React from 'react'; 
 
- export default function Home(){
-
+ export default function Home({route}){
+  const formlembrete = route.params ? route.params.formlembrete : { titulo: '', texto: '' };
+  
+  
+  
   return (
     <View style={styles.fundo}>
     <View style={styles.container}>
@@ -18,7 +21,7 @@ import React from 'react';
       
       </View>
 
-    <View style={styles.Avisos}>
+   {/*<View style={styles.Avisos}>
     <Text style={styles.TituloAviso}>Aviso Principal</Text>
       <View style={styles.AvisoContainer}>
    
@@ -29,6 +32,29 @@ import React from 'react';
         <Text style={styles.texto}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est.
         </Text>
+        <TouchableOpacity style={styles.butao}>
+          <Text style={styles.buttonText}>Saiba Mais</Text>
+        </TouchableOpacity>
+      </View>
+  </View>*/}
+
+
+      <View style={styles.Avisos}>
+    <Text style={styles.TituloAviso}>Aviso Principal</Text>
+      <View style={styles.AvisoContainer}>
+   
+<View style={styles.Titulocontainer}> 
+
+
+        <Text style={styles.Titulo}>{formlembrete.titulo}</Text>
+        <Text style={styles.data}>24/01</Text>
+      </View>  
+        <Text style={styles.texto}>
+        {formlembrete.texto}
+        </Text>
+
+
+
         <TouchableOpacity style={styles.butao}>
           <Text style={styles.buttonText}>Saiba Mais</Text>
         </TouchableOpacity>

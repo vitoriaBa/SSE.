@@ -7,7 +7,7 @@ import Home from '../Home';
 import Chat from '../Chat';
 import Calendario from '../Calendario';
 import Horarios from '../Horarios';
-import Teste from '../teste';
+import CriarLembrete from '../CriarLembrete';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +23,7 @@ export default function Rotastab() {
       <Tab.Screen name="Calendario" component={Calendario} />  
       <Tab.Screen name="Home" component={Home} />
 
-      <Tab.Screen name="  " component={Teste} options={{
+      <Tab.Screen name="  " component={CriarLembrete} options={{
           tabBarIcon: ({ focused }) => (
             <Image source={require('./imagenIcons/addbuton.png')}
               style={{
@@ -39,6 +39,7 @@ export default function Rotastab() {
       />
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="Horarios" component={Horarios} />
+ 
     </Tab.Navigator>
 
   );
