@@ -1,11 +1,16 @@
 import React from 'react'; 
 import { useNavigation } from '@react-navigation/native';
 import {Text,View, SafeAreaView, TextInput,StyleSheet,Image,TouchableOpacity } from 'react-native';
-
 import {useState, useEffect } from 'react';
 
- export default function CriarLembrete({navigation}){
+import { Dayjs } from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+ export default function CriarLembrete({navigation}){
+  const [value, setValue] = React.useState<Dayjs | null>(null);
     const [formlembrete, setFormlembrete] = useState({
         titulo: '',
         texto: '',
@@ -39,6 +44,11 @@ import {useState, useEffect } from 'react';
         onChangeText={(text) => setFormlembrete({ ...formlembrete, texto: text })}
     />
 
+<LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer components={['DatePicker']}>
+        <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
+      </DemoContainer>
+    </LocalizationProvider>
 
 <TouchableOpacity   
  onPress={enviarlembretes}

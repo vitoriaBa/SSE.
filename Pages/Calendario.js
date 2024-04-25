@@ -1,142 +1,61 @@
-import React from 'react'; 
-import { Alert, Pressable, ScrollView, StyleSheet } from "react-native";
+import React, {useState} from 'react';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
 
-import { Text, View } from "react-native";
-import {Agenda,AgendaEntry,AgendaSchedule,DateData,calendario} from "react-native-calendars";
-import { useState } from "react";
-import events from "../assets/data/events.json";
-
-
-export default function Calendario() {
-  const [items,setItems] = useState([]);
-
- /* const timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-  }
-
-
-  const loadItems = (dia) => {
-
-    setTimeout(() => {
-      for (let i = -15; i < 85; i++) {
-        const time = dia.timestamp + i * 24 * 60 * 60 * 1000;
-       const strTime = timeToString(time);
+const App = () => {
+  const [selected, setSelected] = useState('');
+  LocaleConfig.locales['fr'] = {
+    monthNames: [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'Octobre',
+      'Novembre',
+      'Décembre'
+    ],
   
-        if (!items[strTime]) {
-          items[strTime] = [];
-          
-          const numItems = Math.floor(Math.random() * 3 + 1);
-          for (let j = 0; j < numItems; j++) {
-            items[strTime].push({
-              name: 'Item for ',
-              height:( Math.floor(Math.random() * 150)),
-              dia: strTime
-            });
-          }
-        }
-      }
-      const newItems = {};
-      Object.keys(items).forEach(key => {
-        newItems[key] = items[key];
-      });
-      setItems(newItems);
-    }, 1000);*/
-  
-//eu mexi aqui
-  const renderItem = (reservation, isFirst) => {
-   
-    const fontSize = isFirst ? 16 : 14;
-    //const color = isFirst ? "black" : "#43515c";
-    return (
-      <Pressable
-        style={[styles.item, { height: reservation.height }]}
-        onPress={() => Alert.alert(reservation.name)}
-      >
-        <Text style={{ fontSize}}>{reservation.name}</Text>
-      </Pressable>
-    );
+    monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+    dayNames: ['segunda', 'ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'],
+    dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+    today: "Aujourd'hui"
   };
-    return (
-     
-        
-        <View style={styles.container}>
-
-          <Calendario
-           enableSwipeMonths={true}
-          >         
-          </Calendario>
-
-          <Agenda
-          style={styles.Agenda}
-                   //items
-            items={events}
-            //loadItemsForMonth={loadItems}
-           selected={"2022-11-25"}
-            renderItem={renderItem}
-            //renderEmptyDate={renderEmptyDate}
-           
-             showOnlySelectedDayItems//=>Mostra  tudo endempendente do dia escolhido          
-          />
-        </View>
-       
-    );
   
+  LocaleConfig.defaultLocale = 'fr';
+  return (
+    <Calendar
+      onDayPress={day => {
+        setSelected(day.dateString);
+      }}
+      markedDates={{
+        [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+      }}
+
+      style={{
+        borderWidth: 1,
+        height: 350,
+      
+        backgroundColor: '#174738',
+        calendarBackground: '#174738',
+        textSectionTitleColor: '#e8e8e8',
+        selectedDayBackgroundColor: '#206550',
+        selectedDayTextColor: '#174738',
+        todayTextColor: '#206550',
+        dayTextColor: '#e8e8e8',
+        textDisabledColor: '#206550'
+      // Specify the current date
+      }}
+      current={'2012-03-01'}
+      // Callback that gets called when the user selects a day
+
+      // Mark specific dates as marked
   
-  }
-/*
-  const loadItems = (day) => {
-    //setItems(events);
-  };
+    />
+  );
+};
 
-  const renderEmptyDate = () => {
-    return (
-      <View style={styles.emptyDate}>
-        <Text>This is empty date!</Text>
-      </View>
-    );
-  };
-
-  const renderItem = (reservation, isFirst) => {
-    const fontSize = isFirst ? 16 : 14;
-    const color = isFirst ? "black" : "#43515c";
-*/
-  
-  /*return (
-    <View style={styles.container}>
-      <Agenda
-               //items
-        items={events}
-        loadItemsForMonth={loadItems}
-       selected={"2022-11-25"}
-        renderItem={renderItem}
-        //renderEmptyDate={renderEmptyDate}
-       
-         showOnlySelectedDayItems
-      />
-    </View>*/
-  
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  item: {
-    backgroundColor: '#206550',
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-    color:'#206550',
-  },
-  Agenda:{
-    backgroundColor: "#206550",
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30,
-  },
-});
+export default App;
