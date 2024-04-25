@@ -1,16 +1,10 @@
 import React from 'react'; 
 import { useNavigation } from '@react-navigation/native';
-import {Text,View, SafeAreaView,Textarea, TextInputMask,StyleSheet,Image,TouchableOpacity } from 'react-native';
+import {Text,View, SafeAreaView,Textarea, TextInput,StyleSheet,Image,TouchableOpacity } from 'react-native';
 import {useState, useEffect } from 'react';
-/*
-import { Dayjs } from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-*/
+
  export default function CriarLembrete({navigation}){
-  const [value, setValue] = React.useState<Dayjs | null>(null);
+
     const [formlembrete, setFormlembrete] = useState({
         titulo: '',
         texto: '',
@@ -26,38 +20,57 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
     const navi = useNavigation();
   return (
     <View style={styles.fundo}>
+
     <View style={styles.container}>
+
       <Text style={styles.titulo}>Lembretes</Text>
     
+<TouchableOpacity   
+ //onPress={fecharjanela}
+ >
+   <View style={styles.button}>
+
+     <Text style={styles.txt}>fecharjanela</Text>
+
+   </View>
+
+ </TouchableOpacity>
+
 
     <View style={styles.form}>
-    <Text style={styles.titulo}>Titulo</Text>
-    <TextInputMask
+
+    <Text style={styles.texto}>Titulo:</Text>
+
+    <TextInput
     style={styles.input}
     placeholder="Titulo do lembrete"
     value={formlembrete.titulo}
         onChangeText={(text) => setFormlembrete({ ...formlembrete, titulo: text })}
     />
- <Text style={styles.titulo}>Descrição</Text>
-<Textarea 
+
+    <View  style={styles.bloco}>
+
+
+ <Text style={styles.texto}>Descrição:</Text>
+ 
+<TextInput 
     style={styles.input}
     placeholder="Texto do lembrete"
     value={formlembrete.texto}
         onChangeText={(text) => setFormlembrete({ ...formlembrete, texto: text })}
     />
-    <TextInputMask
-    placeholder="DD/MM/YYYY"
-    type={'datetime'}
-    options={{
-      format: 'DD/MM/YYYY',
-    }}
-  //  value={formlembrete.texto}
-   // onChangeText={(text) => setFormlembrete({ ...formlembrete, data: text })}
->
-  </TextInputMask>
+
+</View>
+
+
+
+<View style={styles.inline}>
+
+<View style={styles.sob}> 
+  <Text style={styles.texto}>Data:</Text>
+  <TextInput
+    style={styles.inputmed}
   
-  
-  <TextInputMask
   placeholder="HH:MM"
   type={'datetime'}
   options={{
@@ -66,13 +79,61 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
  // value={formlembrete.texto}
    // onChangeText={(hora) => setFormlembrete({ ...formlembrete, hora: inter  })}
 />
-  {/*
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DatePicker']}>
-        <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
-      </DemoContainer>
-    </LocalizationProvider>
-  */}
+</View>
+
+  <View style={styles.sob}> 
+  <Text style={styles.texto}>Data:</Text>
+    <TextInput
+     style={styles.inputmed}
+    placeholder="DD/MM/YYYY"
+    type={'datetime'}
+    options={{
+      format: 'DD/MM/YYYY',
+    }}
+  //  value={formlembrete.texto}
+   // onChangeText={(text) => setFormlembrete({ ...formlembrete, data: text })}
+>
+  </TextInput>
+  </View>
+
+  
+
+
+</View>
+
+<View style={styles.inline2}>
+
+<TouchableOpacity
+style={styles.button}
+  onPress={() => {
+   <View style={styles.texte}>
+
+    </View>
+    
+  }}>
+  </TouchableOpacity>
+  <Text>Cor de destaque</Text>
+    </View>
+
+
+
+
+<View style={styles.inline2}>
+<TouchableOpacity
+style={styles.button}
+  onPress={() => {
+   <View style={styles.texte}>
+
+    </View>
+  }}>
+</TouchableOpacity>
+<Text>Adicionar convidado</Text>
+</View>
+
+
+</View>
+
+
 <TouchableOpacity   
  onPress={enviarlembretes}
  >
@@ -81,9 +142,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
    </View>
  </TouchableOpacity>
 
+
+
     </View>
       </View>
-      </View>
+      
      
     
   );
@@ -124,6 +187,16 @@ const styles = StyleSheet.create({
      borderColor:'#BBBBBB',
      borderWidth: 5,
   },
+  inputmed:{
+    textAlign:'center',
+    borderRadius:10,
+    margin:5,
+    width:130,
+    height:50,
+     backgroundColor:'#FFFFFF',
+     borderColor:'#BBBBBB',
+     borderWidth: 5,
+  },
   buttonTop: {
     fontSize: 17,
     fontFamily:'BrunoAce-Regular',
@@ -138,9 +211,40 @@ const styles = StyleSheet.create({
     color: '#000000',
     transform: [{ translateY: -5 }], 
   },
+  button:{
+    width:40,
+    height:40,
+    margin:10,
+    borderColor: '#174738', 
+    backgroundColor: '#FFFFFF', 
+  },
+  inline:{
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flexDirection:'row-reverse',
+    justifyContent:'space-between',
+    backgroundColor: '#236E57', 
+    width:300,
+      height:70,
+    
+   },
 
+   inline2:{
+    display: 'flex', 
+    alignItems: 'center', 
+    flexDirection:'row',
+    backgroundColor: '#236E57', 
+    width:300,
+      height:70,
+   },
 
-
+  texte:{
+    height:200,
+    width:300,
+    borderColor: '#174738', 
+    backgroundColor: '#236E57', 
+  }
  
 });
 

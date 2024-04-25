@@ -1,6 +1,8 @@
 import {Text,View, SafeAreaView, StyleSheet,Image,TouchableOpacity } from 'react-native';
 import React from 'react'; 
 
+
+
  export default function Home({route}){
   const formlembrete = route.params ? route.params.formlembrete : { titulo: '', texto: '' };
   
@@ -52,8 +54,6 @@ import React from 'react';
         <Text style={styles.texto}>
         {formlembrete.texto}
         </Text>
-
-
 
         <TouchableOpacity style={styles.butao}>
           <Text style={styles.buttonText}>Saiba Mais</Text>
