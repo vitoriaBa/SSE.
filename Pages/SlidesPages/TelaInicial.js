@@ -8,7 +8,7 @@ export default function TelaInicial() {
   const navi = useNavigation();
 
   // fonte
-  let [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     'BrunoAce-Regular': require('../../assets/fonts/BrunoAce-Regular.ttf'),
   });
 

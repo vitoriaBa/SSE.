@@ -11,7 +11,7 @@ import { useFonts} from 'expo-font';
 export default function Tela2Screen() {
   const navi = useNavigation();
  
-  let [fontsLoaded, fontError] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     'BrunoAce-Regular': require('../../assets/fonts/BrunoAce-Regular.ttf'),
   });
 
