@@ -1,14 +1,14 @@
 import React from 'react'; 
 import { useNavigation } from '@react-navigation/native';
-import {Text,View, SafeAreaView, TextInput,StyleSheet,Image,TouchableOpacity } from 'react-native';
+import {Text,View, SafeAreaView,Textarea, TextInputMask,StyleSheet,Image,TouchableOpacity } from 'react-native';
 import {useState, useEffect } from 'react';
-
+/*
 import { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
+*/
  export default function CriarLembrete({navigation}){
   const [value, setValue] = React.useState<Dayjs | null>(null);
     const [formlembrete, setFormlembrete] = useState({
@@ -27,29 +27,52 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
   return (
     <View style={styles.fundo}>
     <View style={styles.container}>
+      <Text style={styles.titulo}>Lembretes</Text>
     
 
     <View style={styles.form}>
-    <TextInput
+    <Text style={styles.titulo}>Titulo</Text>
+    <TextInputMask
     style={styles.input}
     placeholder="Titulo do lembrete"
     value={formlembrete.titulo}
         onChangeText={(text) => setFormlembrete({ ...formlembrete, titulo: text })}
     />
-
-<TextInput
+ <Text style={styles.titulo}>Descrição</Text>
+<Textarea 
     style={styles.input}
     placeholder="Texto do lembrete"
     value={formlembrete.texto}
         onChangeText={(text) => setFormlembrete({ ...formlembrete, texto: text })}
     />
-
+    <TextInputMask
+    placeholder="DD/MM/YYYY"
+    type={'datetime'}
+    options={{
+      format: 'DD/MM/YYYY',
+    }}
+  //  value={formlembrete.texto}
+   // onChangeText={(text) => setFormlembrete({ ...formlembrete, data: text })}
+>
+  </TextInputMask>
+  
+  
+  <TextInputMask
+  placeholder="HH:MM"
+  type={'datetime'}
+  options={{
+    format: 'HH:mm',
+  }}
+ // value={formlembrete.texto}
+   // onChangeText={(hora) => setFormlembrete({ ...formlembrete, hora: inter  })}
+/>
+  {/*
 <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
         <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
       </DemoContainer>
     </LocalizationProvider>
-
+  */}
 <TouchableOpacity   
  onPress={enviarlembretes}
  >
