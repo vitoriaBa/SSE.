@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TextInput, Image,TouchableOpacity, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
 export default function CriarLembrete({ navigation }) {
@@ -92,20 +92,36 @@ export default function CriarLembrete({ navigation }) {
               {/*começa a view de dentro*/}  
               
               <View style={styles.inlineView}>
-              <TouchableOpacity style={{width: 40, height: 40,  borderColor: '#174738',backgroundColor: '#2668B5',}}></TouchableOpacity><Text>Azul</Text>
+              <TouchableOpacity><Image source={require('../assets/tomate.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Tomate</Text>
+              
+              <TouchableOpacity onPress={() => {
+                  setMostrarCores(false);
+                }}>  
+                <Text style={styles.sair}>X</Text></TouchableOpacity>
+            
+            
                 </View>
 
                 <View style={styles.inlineView}>
-                <TouchableOpacity style={{width: 40, height: 40, borderColor: '#174738',backgroundColor: '#DD4124',}}></TouchableOpacity><Text>Tangerina</Text>
+                <TouchableOpacity><Image source={require('../assets/azul.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Azul</Text>
                 </View>
                  
+                <View style={styles.inlineView}>
+                <TouchableOpacity><Image source={require('../assets/azul.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Tangerina</Text>
+                </View>
 
 
-                <TouchableOpacity onPress={() => {
-                  setMostrarCores(false);
-                }}>  
-                <Text style={{width: 30, height: 20, margin: 10, borderColor: '#174738',backgroundColor: '#174738',}}>Sair</Text>
-                </TouchableOpacity>
+                <View style={styles.inlineView}>
+                <TouchableOpacity><Image source={require('../assets/azul.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Tangerina</Text>
+                </View>
+
+                
+                <View style={styles.inlineView}>
+                <TouchableOpacity><Image source={require('../assets/azul.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Tangerina</Text>
+                </View>
+
+
+              
 
               </View>
 
@@ -127,18 +143,23 @@ export default function CriarLembrete({ navigation }) {
 
               <View style={styles.texte}>
 
-
+                  <TouchableOpacity onPress={() => {
+                  setMostrarUsuarios(false);
+                }}>  
+                <Text style={styles.sair}>X</Text></TouchableOpacity>
 
                   
+               <TextInput
+                style={styles.inputpesquisa}
+              placeholder="Pesquisar Membro"
+               ></TextInput>   
+               <TouchableOpacity>
+                <Text style={styles.sair}> ?</Text>
+                  
+                  </TouchableOpacity>
 
-
-                <TouchableOpacity
-                 onPress={() => {
-                  setMostrarUsuarios(false);
-                }}
-                >
-                  <Text>Sair</Text>
-                </TouchableOpacity>
+                
+                 
                 </View>
                 )}   
             {/*<Text>Adicionar convidado</Text>*/}
@@ -170,6 +191,11 @@ const styles = StyleSheet.create({
     margin: 0,
     position: 'absolute',
   },
+  sair:{
+   fontSize:30,
+   marginLeft:90,
+   fontFamily:'BrunoAce-Regular',
+  },
   container: {
     backgroundColor: '#FFFFFF',
     width: 385,
@@ -188,8 +214,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    width: 350,
-    height: 690,
+    width: 340,
+    height: 660,
     borderRadius: 30,
     borderColor: '#E4D5C7',
     backgroundColor: '#236E57',
@@ -218,6 +244,17 @@ const styles = StyleSheet.create({
     backgroundColor:'#E4D5C7',
     borderWidth: 0,
     borderBottomWidth:5,
+  },
+  inputpesquisa:{
+    textAlign: 'center',
+    borderRadius: 5,
+    margin: 5,
+    width: 200,
+    height: 40,
+    borderBottomWidth:5,
+    borderColor:'#174738',
+    backgroundColor:'#FFFFFF',
+    borderWidth: 1,
   },
   buttonTop: {
     fontSize: 17,
@@ -254,12 +291,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
+    textAlign:'center',
     //backgroundColor: '#236E57',
     width: 300,
     height: 70,
   },
   inlineView:{
     display: 'flex',
+    alignItems:'center',
     flexDirection: 'row',
   },
   inlineTitulo: {
@@ -276,6 +315,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontFamily: 'BrunoAce-Regular',
     color:'#E4D5C7',
+  },
+  texto2: {
+    fontSize: 16,
+    marginLeft: 10,
+    fontFamily: 'BrunoAce-Regular',
+    color:'#000000',
   },
   titulo: {
     fontSize: 32,
