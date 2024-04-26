@@ -11,7 +11,8 @@ export default function CriarLembrete({ navigation }) {
     return null;
   }
 
-  const [mostrarTexto, setMostrarTexto] = useState(false);
+  const [mostrarCores, setMostrarCores] = useState(false);
+  const [mostrarUsuarios, setMostrarUsuarios] = useState(false);
 
   const [formlembrete, setFormlembrete] = useState({
     titulo: '',
@@ -25,11 +26,13 @@ export default function CriarLembrete({ navigation }) {
   return (
     <View style={styles.fundo}>
       <View style={styles.container}>
+      <View style={styles.container2}>
+      <View style={styles.container3}>
         <View style={styles.inlineTitulo}>
           <Text style={styles.titulo}>Lembretes</Text>
           <TouchableOpacity>
             <View style={styles.button}>
-              <Text style={styles.titulo}>X</Text>
+              <TouchableOpacity style={{backgroundColor:'#236E57',}}><Text style={styles.titulo}>X</Text></TouchableOpacity>
             </View>
           </TouchableOpacity>
         </View>
@@ -79,46 +82,80 @@ export default function CriarLembrete({ navigation }) {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                setMostrarTexto(true);
+                setMostrarCores(true);
               }}>
           
             </TouchableOpacity>
-            {mostrarTexto && (
+            {mostrarCores && (
+             
               <View style={styles.texte}>
-                <Text>AAAAAAAAAAAAA</Text>
-                <TouchableOpacity
-                 onPress={() => {
-                  setMostrarTexto(false);
-                }}
-                >
-                  <Text>Sair</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-                <Text>Cor de destaque</Text>
-          </View>
+              {/*começa a view de dentro*/}  
+              
+              <View style={styles.inlineView}>
+              <TouchableOpacity style={{width: 40, height: 40,  borderColor: '#174738',backgroundColor: '#2668B5',}}></TouchableOpacity><Text>Azul</Text>
+                </View>
 
+                <View style={styles.inlineView}>
+                <TouchableOpacity style={{width: 40, height: 40, borderColor: '#174738',backgroundColor: '#DD4124',}}></TouchableOpacity><Text>Tangerina</Text>
+                </View>
+                 
+
+
+                <TouchableOpacity onPress={() => {
+                  setMostrarCores(false);
+                }}>  
+                <Text style={{width: 30, height: 20, margin: 10, borderColor: '#174738',backgroundColor: '#174738',}}>Sair</Text>
+                </TouchableOpacity>
+
+              </View>
+
+
+            )}
+            {/*acaba a view de dentro*/}
+                <Text  style={styles.txt}>Cor de destaque</Text>
+          </View>
 
           <View style={styles.inline2}>
             <TouchableOpacity
              style={styles.button}
                   onPress={() => {
-                    setMostrarTexto(true);
+                    setMostrarUsuarios(true);
                   }}>
-           
-            </TouchableOpacity>
-            <Text>Adicionar convidado</Text>
+
+                    </TouchableOpacity>
+                   {mostrarUsuarios && (
+
+              <View style={styles.texte}>
+
+
+
+                  
+
+
+                <TouchableOpacity
+                 onPress={() => {
+                  setMostrarUsuarios(false);
+                }}
+                >
+                  <Text>Sair</Text>
+                </TouchableOpacity>
+                </View>
+                )}   
+            {/*<Text>Adicionar convidado</Text>*/}
+            <Text  style={styles.txt}>Adicionar um Usuario</Text>
           </View>
 
 
 
-        </View>
+          
         <TouchableOpacity onPress={enviarlembretes}>
           <View style={styles.buttonTop}>
             <Text style={styles.txt}>Criar</Text>
           </View>
         </TouchableOpacity>
-        
+        </View>
+        </View>
+        </View>
       </View>
     </View>
   );
@@ -147,37 +184,53 @@ const styles = StyleSheet.create({
     borderColor: '#206550',
     margin: 2,
   },
+  container2:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    width: 350,
+    height: 690,
+    borderRadius: 30,
+    borderColor: '#E4D5C7',
+    backgroundColor: '#236E57',
+  },
+  form:{
+   margin:30
+  },
   input: {
     textAlign: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
     margin: 5,
     width: 300,
     height: 50,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#BBBBBB',
-    borderWidth: 5,
+    borderBottomWidth:5,
+    borderColor:'#95877A',
+    backgroundColor:'#E4D5C7',
+    borderWidth: 0,
   },
   inputmed: {
     textAlign: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
     margin: 5,
     width: 130,
     height: 50,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#BBBBBB',
-    borderWidth: 5,
+    borderColor:'#95877A',
+    backgroundColor:'#E4D5C7',
+    borderWidth: 0,
+    borderBottomWidth:5,
   },
   buttonTop: {
     fontSize: 17,
     fontFamily: 'BrunoAce-Regular',
-    width: 250,
+    width: 300,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 12,
-    borderWidth: 2,
     borderColor: '#174738',
-    backgroundColor: '#236E57',
+    borderWidth: 0,
+    borderBottomWidth:5,
+    backgroundColor: '#206550',
     color: '#000000',
     transform: [{ translateY: -5 }],
   },
@@ -185,7 +238,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     margin: 10,
-    borderColor: '#174738',
     backgroundColor: '#FFFFFF',
   },
   inline: {
@@ -194,7 +246,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row-reverse',
     justifyContent: 'space-between',
-    backgroundColor: '#236E57',
+    //backgroundColor: '#236E57',
     width: 300,
     height: 70,
   },
@@ -202,9 +254,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#236E57',
+    //backgroundColor: '#236E57',
     width: 300,
     height: 70,
+  },
+  inlineView:{
+    display: 'flex',
+    flexDirection: 'row',
   },
   inlineTitulo: {
     display: 'flex',
@@ -219,17 +275,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
     fontFamily: 'BrunoAce-Regular',
+    color:'#E4D5C7',
   },
   titulo: {
     fontSize: 32,
     textAlign: 'center',
     fontFamily: 'BrunoAce-Regular',
+    color:'#E4D5C7',
   },
   texte: {
-    height: 200,
-    width: 300,
+    justifyContent:'center',
+    height: 300,
+    width: 250,
+    marginBottom:300,
+    marginLeft:0,
+    marginRight:200,
     borderColor: '#174738',
-    backgroundColor: '#FFFFFF',
+    borderRadius:20,
+    backgroundColor: '#E4D5C7',
   },
 });
 
