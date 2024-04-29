@@ -26,6 +26,8 @@ const Chat = () => {
         style={styles.messagesContainer}
         inverted
       />
+
+
       <View style={styles.inputContainer}>
         <TextInput
           value={message}
@@ -49,11 +51,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     paddingHorizontal: 10,
-    backgroundColor:'#f0f0f0'
+    backgroundColor:'#FFFFFF'
   },
   messageContainer: {
     padding: 10,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#206550',
     marginBottom: 10,
     alignSelf: 'flex-start',
     borderRadius: 8,
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 10,
     borderTopWidth: 1,
-    borderTopColor: '#ccc',
+    borderTopColor: '#FFFFFF',
   },
   input: {
     flex: 1,
