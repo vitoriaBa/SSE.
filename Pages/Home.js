@@ -8,6 +8,7 @@ import React from 'react';
   
   
   
+  
   return (
     <View style={styles.fundo}>
     <View style={styles.container}>
@@ -38,8 +39,8 @@ import React from 'react';
           <Text style={styles.buttonText}>Saiba Mais</Text>
         </TouchableOpacity>
       </View>
-  </View>*/}
-
+  </View>
+  */}
 
       <View style={styles.Avisos}>
     <Text style={styles.TituloAviso}>Aviso Principal</Text>
@@ -48,7 +49,9 @@ import React from 'react';
 <View style={styles.Titulocontainer}> 
 
 
-        <Text style={styles.Titulo}>{formlembrete.titulo}</Text>
+        <Text style={styles.Titulo}>
+          {formlembrete.titulo}
+          </Text>
         <Text style={styles.data}>24/01</Text>
       </View>  
         <Text style={styles.texto}>

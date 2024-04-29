@@ -1,72 +1,90 @@
-import {Text,View, SafeAreaView, StyleSheet,Image,TouchableOpacity } from 'react-native';
- 
+import React, { useState } from 'react';
+import { View, TextInput, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
 
- export default function Chat(){
-   return(
-    <SafeAreaView style={styles.fundo}>
+const Chat = () => {
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  const sendMessage = () => {
+    if (message.trim() === '') return;
+    setMessages(prevMessages => [...prevMessages, { id: messages.length.toString(), text: message }]);
+    setMessage('');
+  };
+
+  const renderMessage = ({ item }) => (
+    <View style={styles.messageContainer}>
+      <Text>{item.text}</Text>
+    </View>
+  );
+
+  return (
     <View style={styles.container}>
-    <View style={styles.containerusuario}>
-
-
-
-
-   
-    <Text style={styles.txt}>Chat</Text>
-    
-
+      <FlatList
+        data={messages}
+        renderItem={renderMessage}
+        keyExtractor={item => item.id}
+        style={styles.messagesContainer}
+        inverted
+      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          value={message}
+          onChangeText={setMessage}
+          placeholder="Digite sua mensagem..."
+          style={styles.input}
+        />
+        <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
+          <Text style={styles.sendButtonText}>Enviar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-    </View>
-    </SafeAreaView>
-   );
- }
+  );
+};
 
-
- const styles = StyleSheet.create({
-  fundo: {
-   
-    justifyContent: 'center',
-    alignItems:'center',
-    backgroundColor:'#174738',
-    padding: 0,
-    margin:0,
-    position:'absolute',
- 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
   },
-  container:{
-    backgroundColor:'#FFFFFF',
-    width:380,
-    height:800,
-    borderRadius:50,
-    justifyContent: 'center',
-    alignItems:'center',
-    flexDirection:'column',
-    padding: 0,
-    borderWidth:20,
-     borderColor:'#174738',
-    margin:0,
- 
+  messagesContainer: {
+    flex: 1,
+    paddingTop: 20,
+    paddingHorizontal: 10,
+    backgroundColor:'#f0f0f0'
   },
-  containerusuario:{
-    width:360,
-    height:168,
-    margin:0,
-    padding:0,
-    borderRadius:30,
-    justifyContent: 'center',
-    alignItems:'center',
-    position:'absolute',
-    backgroundColor:'#174738',
-
+  messageContainer: {
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    marginBottom: 10,
+    alignSelf: 'flex-start',
+    borderRadius: 8,
   },
-  img:{
-    width:50,
-    marginHorizontal:120,
-    height:50,
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
   },
-  usuarioimg:{
-    flexDirection:'row',
+  input: {
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    marginRight: 10,
+  },
+  sendButton: {
+    backgroundColor: '#206550',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  sendButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});
 
-  }
-
-
-} );
+export default Chat;

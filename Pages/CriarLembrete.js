@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Image,TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
-
+import { useNavigation  } from '@react-navigation/native';
+//import { TextInputMask } from 'react-native-masked-text';
+//fala que eu estoou importando errado
 export default function CriarLembrete({ navigation }) {
+  const navi = useNavigation();
+  //fonte que irei trocar por uma classe ou function
   const [fontsLoaded] = useFonts({
     'BrunoAce-Regular': require('../assets/fonts/BrunoAce-Regular.ttf'),
   });
@@ -11,9 +15,8 @@ export default function CriarLembrete({ navigation }) {
     return null;
   }
 
-  const [mostrarCores, setMostrarCores] = useState(false);
-  const [mostrarUsuarios, setMostrarUsuarios] = useState(false);
 
+  //formulario
   const [formlembrete, setFormlembrete] = useState({
     titulo: '',
     texto: '',
@@ -23,28 +26,62 @@ export default function CriarLembrete({ navigation }) {
     navigation.navigate('Home', { formlembrete });
   };
 
+  
+
+  //seleçao de cores
+  const [selectedColor, setSelectedColor] = useState({
+    image: require('../assets/tomate.png'),
+    text: 'Texto Inicial'
+  });
+  const [mostrarCores, setMostrarCores] = useState(false);
+  const colors = [
+    { text: 'Tomate', image: require('../assets/tomate.png') },
+    { text: 'Azul', image: require('../assets/azul.png') },
+    { text: 'Azul', image: require('../assets/azul.png') },
+    { text: 'Azul', image: require('../assets/azul.png') },
+    { text: 'Azul', image: require('../assets/azul.png') },
+    { text: 'Azul', image: require('../assets/azul.png') },
+    
+  ];
+
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+    setMostrarCores(false);
+  };
+
+
+
   return (
     <View style={styles.fundo}>
+
       <View style={styles.container}>
-      <View style={styles.container2}>
-      <View style={styles.container3}>
-        <View style={styles.inlineTitulo}>
-          <Text style={styles.titulo}>Lembretes</Text>
-          <TouchableOpacity>
-            <View style={styles.button}>
-              <TouchableOpacity style={{backgroundColor:'#236E57',}}><Text style={styles.titulo}>X</Text></TouchableOpacity>
-            </View>
-          </TouchableOpacity>
+
+        <View style={styles.container2}>
+       
+       <View style={styles.sair}>
+        <TouchableOpacity      onPress={() => navi.navigate('Home')}
+        style={styles.button}>
+              <Text style={styles.titulo}>X</Text>
+            </TouchableOpacity>
         </View>
-        <View style={styles.form}>
-          <Text style={styles.texto}>Titulo:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Titulo do lembrete"
-            value={formlembrete.titulo}
-            onChangeText={(text) => setFormlembrete({ ...formlembrete, titulo: text })}
-          />
-          <View style={styles.bloco}>
+
+
+          <View style={styles.inlineTitulo}>
+            <Text style={styles.titulo}>Lembretes</Text>
+          </View>
+
+
+          <View style={styles.form}>
+            <Text style={styles.texto}>Título:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Título do lembrete"
+              value={formlembrete.titulo}
+              onChangeText={(text) => setFormlembrete({ ...formlembrete, titulo: text })}
+            />
+
+
+
             <Text style={styles.texto}>Descrição:</Text>
             <TextInput
               style={styles.input}
@@ -52,10 +89,12 @@ export default function CriarLembrete({ navigation }) {
               value={formlembrete.texto}
               onChangeText={(text) => setFormlembrete({ ...formlembrete, texto: text })}
             />
-          </View>
-          <View style={styles.inline}>
+
+
+
+<View style={styles.inline}>
             <View style={styles.sob}>
-              <Text style={styles.texto}>Data:</Text>
+              <Text style={styles.texto}>Hora:</Text>
               <TextInput
                 style={styles.inputmed}
                 placeholder="HH:MM"
@@ -66,6 +105,8 @@ export default function CriarLembrete({ navigation }) {
               />
             </View>
             <View style={styles.sob}>
+
+
               <Text style={styles.texto}>Data:</Text>
               <TextInput
                 style={styles.inputmed}
@@ -77,110 +118,48 @@ export default function CriarLembrete({ navigation }) {
               />
             </View>
           </View>
-          <View style={styles.inline2}>
-            
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                setMostrarCores(true);
-              }}>
-          
-            </TouchableOpacity>
-            {mostrarCores && (
-             
-              <View style={styles.texte}>
-              {/*começa a view de dentro*/}  
-              
-              <View style={styles.inlineView}>
-              <TouchableOpacity><Image source={require('../assets/tomate.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Tomate</Text>
-              
-              <TouchableOpacity onPress={() => {
-                  setMostrarCores(false);
-                }}>  
-                <Text style={styles.sair}>X</Text></TouchableOpacity>
-            
-            
-                </View>
-
-                <View style={styles.inlineView}>
-                <TouchableOpacity><Image source={require('../assets/azul.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Azul</Text>
-                </View>
-                 
-                <View style={styles.inlineView}>
-                <TouchableOpacity><Image source={require('../assets/azul.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Tangerina</Text>
-                </View>
 
 
-                <View style={styles.inlineView}>
-                <TouchableOpacity><Image source={require('../assets/azul.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Tangerina</Text>
-                </View>
 
-                
-                <View style={styles.inlineView}>
-                <TouchableOpacity><Image source={require('../assets/azul.png')} ></Image></TouchableOpacity><Text style={styles.texto2}>Tangerina</Text>
-                </View>
-
-
-              
-
+              {/*Butom das cores*/}
+              <Text style={styles.texto}>Cor</Text>
+            <TouchableOpacity style={styles.button} onPress={() => setMostrarCores(true)}>
+            <View style={styles.inlineView}>
+              <Image source={selectedColor.image} style={{ width: 40, height: 40 }} />
+              <Text style={styles.texto}>{selectedColor.text}</Text>
               </View>
-
-
-            )}
-            {/*acaba a view de dentro*/}
-                <Text  style={styles.txt}>Cor de destaque</Text>
-          </View>
-
-          <View style={styles.inline2}>
-            <TouchableOpacity
-             style={styles.button}
-                  onPress={() => {
-                    setMostrarUsuarios(true);
-                  }}>
-
-                    </TouchableOpacity>
-                   {mostrarUsuarios && (
-
+            </TouchableOpacity>
+            
+            {mostrarCores && (
               <View style={styles.texte}>
-
-                  <TouchableOpacity onPress={() => {
-                  setMostrarUsuarios(false);
-                }}>  
-                <Text style={styles.sair}>X</Text></TouchableOpacity>
-
-                  
-               <TextInput
-                style={styles.inputpesquisa}
-              placeholder="Pesquisar Membro"
-               ></TextInput>   
-               <TouchableOpacity>
-                <Text style={styles.sair}> ?</Text>
+                {colors.map((color, index) => (
+                  <TouchableOpacity key={index} onPress={() => handleColorSelect(color)} style={styles.colorButton}>
+                    
+                    <View style={styles.inlineView}>
+                    <Image source={color.image} style={{ width: 50, height: 50 }} />
+                    <Text > {color.text}</Text>
+                    </View>
                   
                   </TouchableOpacity>
-
-                
-                 
-                </View>
-                )}   
-            {/*<Text>Adicionar convidado</Text>*/}
-            <Text  style={styles.txt}>Adicionar um Usuario</Text>
+                ))}
+              </View>
+              
+            )}
+   
+            <TouchableOpacity onPress={enviarlembretes}>
+              <View style={styles.buttonTop}>
+                <Text style={styles.txt}>Criar</Text>
+              </View>
+            </TouchableOpacity>
           </View>
-
-
-
-          
-        <TouchableOpacity onPress={enviarlembretes}>
-          <View style={styles.buttonTop}>
-            <Text style={styles.txt}>Criar</Text>
-          </View>
-        </TouchableOpacity>
-        </View>
-        </View>
         </View>
       </View>
     </View>
   );
 }
+
+// Estilos omitidos por brevidade. Use seus estilos existentes.
+
 
 const styles = StyleSheet.create({
   fundo: {
@@ -192,9 +171,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   sair:{
-   fontSize:30,
-   marginLeft:90,
-   fontFamily:'BrunoAce-Regular',
+   width:300,
+   height:50,
+   bottom:30,
+   flexDirection: 'row-reverse',
+   justifyContent: 'space-between',
   },
   container: {
     backgroundColor: '#FFFFFF',
@@ -275,7 +256,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     margin: 10,
-    backgroundColor: '#FFFFFF',
   },
   inline: {
     display: 'flex',
@@ -295,11 +275,13 @@ const styles = StyleSheet.create({
     //backgroundColor: '#236E57',
     width: 300,
     height: 70,
+    
   },
   inlineView:{
     display: 'flex',
     alignItems:'center',
     flexDirection: 'row',
+    width: 300,
   },
   inlineTitulo: {
     display: 'flex',
@@ -315,6 +297,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontFamily: 'BrunoAce-Regular',
     color:'#E4D5C7',
+    marginTop:10,
   },
   texto2: {
     fontSize: 16,
@@ -323,21 +306,24 @@ const styles = StyleSheet.create({
     color:'#000000',
   },
   titulo: {
-    fontSize: 32,
+    fontSize: 35,
     textAlign: 'center',
     fontFamily: 'BrunoAce-Regular',
     color:'#E4D5C7',
   },
   texte: {
     justifyContent:'center',
-    height: 300,
+    height: 400,
     width: 250,
     marginBottom:300,
-    marginLeft:0,
-    marginRight:200,
     borderColor: '#174738',
     borderRadius:20,
     backgroundColor: '#E4D5C7',
+    zIndex: 10, 
+    position: 'absolute', 
+    
+    left: 30  
+
   },
 });
 

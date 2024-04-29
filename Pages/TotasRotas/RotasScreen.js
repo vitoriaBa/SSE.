@@ -21,6 +21,9 @@ export default function RotasScreen() {
     //<NavigationContainer>
       <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
        
+
+
+
         <Tab.Screen name="TelaInicial" component={TelaInicialScreen} />
         <Tab.Screen name="Tela2Screen" component={Tela2Screen} />
         <Tab.Screen name="Tela3Screen" component={Tela3Screen} />
