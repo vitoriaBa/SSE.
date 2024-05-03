@@ -1,73 +1,72 @@
-import {Text,View, SafeAreaView, StyleSheet,Image,TouchableOpacity } from 'react-native';
-import React from 'react'; 
+import React, { useState,useEffect } from 'react';
+import { Text, View, StyleSheet, ScrollView,TouchableOpacity, FlatList,  } from 'react-native';
 
 
+export default function Home({ route }) {
+  const { formlembrete } = route.params || { formlembrete: { titulo: '', texto: '' } };
+  const [avisos, setAvisos] = useState(formlembrete ? [formlembrete] : []);
+  const [novoLembrete, setNovoLembrete] = useState({ titulo: '', texto: '' });
 
- export default function Home({route}){
-  const formlembrete = route.params ? route.params.formlembrete : { titulo: '', texto: '' };
+  
+  useEffect(() => {
+    if (formlembrete.titulo !== '') {
+      setAvisos([...avisos, formlembrete]);
+    }
+  }, [formlembrete]);
+
+
+ 
+
   
   
-  
-  
+
+
+  const renderItem = ({ item }) => (
+    <View style={styles.AvisoContainer}>
+      <View style={styles.Titulocontainer}>
+        <Text style={styles.Titulo}>{item.titulo}</Text>
+        <Text style={styles.data}>{item.data}</Text>
+      </View>
+      <Text style={styles.texto}>{item.texto}</Text>
+      <TouchableOpacity style={styles.butao}>
+        <Text style={styles.buttonText}>Saiba Mais</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={styles.fundo}>
-    <View style={styles.container}>
-      <View style={styles.usuarioContainer}>
-        <Text style={styles.texto}>Olá Jefferson L. Sousa</Text>
-        {/* usuario*/}
-      </View>
+      <View style={styles.container}>
+        <View style={styles.usuarioContainer}>
+          <Text style={styles.texto}>Olá Jefferson L. Sousa</Text>
+        </View>
+
+
+        <View style={styles.semanaContainer}></View>
 
 
 
-      <View style={styles.semanaContainer}>
-        {/* semana */}
+<ScrollView style={styles.Scroll}>
+
+        <View style={styles.Avisos}>
+          <Text style={styles.TituloAviso}>Aviso Principal</Text>
+          <FlatList
+            data={avisos}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
+        </ScrollView>
+
+
+
       
       </View>
-
-   {/*<View style={styles.Avisos}>
-    <Text style={styles.TituloAviso}>Aviso Principal</Text>
-      <View style={styles.AvisoContainer}>
-   
-<View style={styles.Titulocontainer}> 
-        <Text style={styles.Titulo}>Aviso Principal</Text>
-        <Text style={styles.data}>24/01</Text>
-      </View>  
-        <Text style={styles.texto}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est.
-        </Text>
-        <TouchableOpacity style={styles.butao}>
-          <Text style={styles.buttonText}>Saiba Mais</Text>
-        </TouchableOpacity>
-      </View>
-  </View>
-  */}
-
-      <View style={styles.Avisos}>
-    <Text style={styles.TituloAviso}>Aviso Principal</Text>
-      <View style={styles.AvisoContainer}>
-   
-<View style={styles.Titulocontainer}> 
-
-
-        <Text style={styles.Titulo}>
-          {formlembrete.titulo}
-          </Text>
-        <Text style={styles.data}>24/01</Text>
-      </View>  
-        <Text style={styles.texto}>
-        {formlembrete.texto}
-        </Text>
-
-        <TouchableOpacity style={styles.butao}>
-          <Text style={styles.buttonText}>Saiba Mais</Text>
-        </TouchableOpacity>
-      </View>
-      </View>
-     
-    </View>
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
  fundo:{
@@ -78,7 +77,9 @@ const styles = StyleSheet.create({
   margin:0,
   position:'absolute',
 },
+
   container: {
+    display:'flex',
     backgroundColor:'#FFFFFF',
     width:385,
     height:725,
@@ -112,7 +113,7 @@ backgroundColor:'#206550',
 width:200,
 borderTopLeftRadius:100,
 borderTopRightRadius:100,
-    
+marginRight:30,
   },
   usuarioContainer: {
     flexDirection: 'row',
@@ -137,6 +138,7 @@ borderTopRightRadius:100,
     borderBottomWidth:8,
     borderColor:'#206550',
     justifyContent: 'space-between',
+    marginRight:35,
   },
  Titulo: {
     fontSize: 16,
@@ -166,4 +168,5 @@ borderTopRightRadius:100,
 
  
 });
+
 

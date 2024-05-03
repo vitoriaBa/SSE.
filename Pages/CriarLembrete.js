@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, TextInput, Image } from 'react-native';
 import { useFonts } from 'expo-font';
-import { useNavigation  } from '@react-navigation/native';
-//import { TextInputMask } from 'react-native-masked-text';
-//fala que eu estoou importando errado
+import { useNavigation } from '@react-navigation/native';
+
 export default function CriarLembrete({ navigation }) {
   const navi = useNavigation();
-  //fonte que irei trocar por uma classe ou function
   const [fontsLoaded] = useFonts({
     'BrunoAce-Regular': require('../assets/fonts/BrunoAce-Regular.ttf'),
   });
@@ -15,33 +13,26 @@ export default function CriarLembrete({ navigation }) {
     return null;
   }
 
-
-  //formulario
   const [formlembrete, setFormlembrete] = useState({
     titulo: '',
     texto: '',
   });
+  
 
   const enviarlembretes = () => {
     navigation.navigate('Home', { formlembrete });
   };
 
-  
-
-  //seleçao de cores
   const [selectedColor, setSelectedColor] = useState({
     image: require('../assets/tomate.png'),
-    text: 'Texto Inicial'
+    text: 'Tomate',
   });
+
   const [mostrarCores, setMostrarCores] = useState(false);
   const colors = [
     { text: 'Tomate', image: require('../assets/tomate.png') },
     { text: 'Azul', image: require('../assets/azul.png') },
-    { text: 'Azul', image: require('../assets/azul.png') },
-    { text: 'Azul', image: require('../assets/azul.png') },
-    { text: 'Azul', image: require('../assets/azul.png') },
-    { text: 'Azul', image: require('../assets/azul.png') },
-    
+    // Adicionar outras cores 
   ];
 
   const handleColorSelect = (color) => {
@@ -49,27 +40,19 @@ export default function CriarLembrete({ navigation }) {
     setMostrarCores(false);
   };
 
-
-
   return (
     <View style={styles.fundo}>
-
       <View style={styles.container}>
-
         <View style={styles.container2}>
-       
-       <View style={styles.sair}>
-        <TouchableOpacity      onPress={() => navi.navigate('Home')}
-        style={styles.button}>
+          <View style={styles.sair}>
+            <TouchableOpacity onPress={() => navi.navigate('Home')} style={styles.button}>
               <Text style={styles.titulo}>X</Text>
             </TouchableOpacity>
-        </View>
-
+          </View>
 
           <View style={styles.inlineTitulo}>
             <Text style={styles.titulo}>Lembretes</Text>
           </View>
-
 
           <View style={styles.form}>
             <Text style={styles.texto}>Título:</Text>
@@ -80,8 +63,6 @@ export default function CriarLembrete({ navigation }) {
               onChangeText={(text) => setFormlembrete({ ...formlembrete, titulo: text })}
             />
 
-
-
             <Text style={styles.texto}>Descrição:</Text>
             <TextInput
               style={styles.input}
@@ -90,62 +71,38 @@ export default function CriarLembrete({ navigation }) {
               onChangeText={(text) => setFormlembrete({ ...formlembrete, texto: text })}
             />
 
-
-
-<View style={styles.inline}>
-            <View style={styles.sob}>
-              <Text style={styles.texto}>Hora:</Text>
-              <TextInput
-                style={styles.inputmed}
-                placeholder="HH:MM"
-                type={'datetime'}
-                options={{
-                  format: 'HH:mm',
-                }}
-              />
+            <View style={styles.inline}>
+              <View style={styles.sob}>
+                <Text style={styles.texto}>Hora:</Text>
+                <TextInput style={styles.inputmed} placeholder="HH:MM" />
+              </View>
+              <View style={styles.sob}>
+                <Text style={styles.texto}>Data:</Text>
+                <TextInput style={styles.inputmed} placeholder="DD/MM/YYYY" />
+              </View>
             </View>
-            <View style={styles.sob}>
 
-
-              <Text style={styles.texto}>Data:</Text>
-              <TextInput
-                style={styles.inputmed}
-                placeholder="DD/MM/YYYY"
-                type={'datetime'}
-                options={{
-                  format: 'DD/MM/YYYY',
-                }}
-              />
-            </View>
-          </View>
-
-
-
-              {/*Butom das cores*/}
-              <Text style={styles.texto}>Cor</Text>
+            <Text style={styles.texto}>Cor</Text>
             <TouchableOpacity style={styles.button} onPress={() => setMostrarCores(true)}>
-            <View style={styles.inlineView}>
-              <Image source={selectedColor.image} style={{ width: 40, height: 40 }} />
-              <Text style={styles.texto}>{selectedColor.text}</Text>
+              <View style={styles.inlineView}>
+                <Image source={selectedColor.image} style={{ width: 40, height: 40 }} />
+                <Text style={styles.texto}>{selectedColor.text}</Text>
               </View>
             </TouchableOpacity>
-            
+
             {mostrarCores && (
               <View style={styles.texte}>
                 {colors.map((color, index) => (
                   <TouchableOpacity key={index} onPress={() => handleColorSelect(color)} style={styles.colorButton}>
-                    
                     <View style={styles.inlineView}>
-                    <Image source={color.image} style={{ width: 50, height: 50 }} />
-                    <Text > {color.text}</Text>
+                      <Image source={color.image} style={{ width: 50, height: 50 }} />
+                      <Text> {color.text}</Text>
                     </View>
-                  
                   </TouchableOpacity>
                 ))}
               </View>
-              
             )}
-   
+
             <TouchableOpacity onPress={enviarlembretes}>
               <View style={styles.buttonTop}>
                 <Text style={styles.txt}>Criar</Text>
@@ -157,8 +114,6 @@ export default function CriarLembrete({ navigation }) {
     </View>
   );
 }
-
-// Estilos omitidos por brevidade. Use seus estilos existentes.
 
 
 const styles = StyleSheet.create({

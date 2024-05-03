@@ -1,6 +1,7 @@
+import React from 'react'; 
 import { Text, SafeAreaView, StyleSheet,View,Image,Button, ImageBackground,TouchableHighlight } from 'react-native';
 import { useNavigation, useFocusEffect  } from '@react-navigation/native';
-import React from 'react'; 
+
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 //import React, { useState } from 'react';
 

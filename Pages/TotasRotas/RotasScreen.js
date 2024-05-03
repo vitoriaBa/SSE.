@@ -1,7 +1,7 @@
 
-import * as React from 'react';
+import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-//import {NavigationContainer} from '@react-navigation/native';
+
 
 import MyTabBar  from './MyTabBar';
 import TelaInicialScreen from '../SlidesPages/TelaInicial';
@@ -18,12 +18,9 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function RotasScreen() {
   return (
-    //<NavigationContainer>
+
       <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
        
-
-
-
         <Tab.Screen name="TelaInicial" component={TelaInicialScreen} />
         <Tab.Screen name="Tela2Screen" component={Tela2Screen} />
         <Tab.Screen name="Tela3Screen" component={Tela3Screen} />
@@ -31,8 +28,7 @@ export default function RotasScreen() {
         <Tab.Screen name="Rotastab" component={Rotastab} />
 
       </Tab.Navigator>
-      
-     // </NavigationContainer>
+    
   );
 }
 
