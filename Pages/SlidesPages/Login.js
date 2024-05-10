@@ -12,7 +12,7 @@ import { useFonts} from 'expo-font';
 
 
 
-export default function LoginScreen() {
+export default function Login() {
   const auth = getAuth();
     const[email, setEmail]= useState('');
     const[senha, setSenha] = useState('');

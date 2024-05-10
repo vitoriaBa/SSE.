@@ -1,4 +1,6 @@
 import React from 'react'; 
+import {useCallback} from 'react'; 
+
 import { Text, SafeAreaView, StyleSheet,View,Image,Button, ImageBackground,TouchableHighlight } from 'react-native';
 import { useNavigation, useFocusEffect  } from '@react-navigation/native';
 
@@ -9,7 +11,7 @@ import { useFonts} from 'expo-font';
 
 
 //esse seria o pai
-export default function Tela2Screen() {
+export default function Tela2() {
   const navi = useNavigation();
  
   const [fontsLoaded, fontError] = useFonts({
@@ -31,24 +33,20 @@ export default function Tela2Screen() {
       borderRadius: 50,
     };
   });
-  const iniciarAnimacao = () => {
+
+  const iniciarAnimacao = useCallback(() => {
     larguraAnimada.value = withTiming(70, { duration: 500 });
-  };
+  }, [larguraAnimada]);
+
 
   useFocusEffect(
-    React.useCallback(() => {
-     
-      if (!larguraAnimada) return;
-  
+    useCallback(() => {
       larguraAnimada.value = 20;
-  
-    
-    
-  
       iniciarAnimacao();
-  
-    }, [])
+    }, [iniciarAnimacao, larguraAnimada])
   );
+  
+
   return (
     <SafeAreaView style={styles.container}>
 <ImageBackground source={require('../../assets/fundo2.png')} style={styles.image}>

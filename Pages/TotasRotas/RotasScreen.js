@@ -4,12 +4,11 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 
 import MyTabBar  from './MyTabBar';
-import TelaInicialScreen from '../SlidesPages/TelaInicial';
-import Tela2Screen from '../SlidesPages/Tela2';
-import Tela3Screen from '../SlidesPages/Tela3';
-import LoginScreen from '../SlidesPages/Login';  
+import TelaInicial from '../SlidesPages/TelaInicial';
+import Tela2 from '../SlidesPages/Tela2';
+import Tela3 from '../SlidesPages/Tela3';
+import Login from '../SlidesPages/Login';  
 import Rotastab from '../TotasRotas/Rotastab'; 
-
 
 
 
@@ -21,16 +20,17 @@ export default function RotasScreen() {
 
       <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
        
-        <Tab.Screen name="TelaInicial" component={TelaInicialScreen} />
-        <Tab.Screen name="Tela2Screen" component={Tela2Screen} />
-        <Tab.Screen name="Tela3Screen" component={Tela3Screen} />
-        <Tab.Screen name="LoginScreen" component={LoginScreen} />
+        <Tab.Screen name="TelaInicial" component={TelaInicial} />
+        <Tab.Screen name="Tela2Screen" component={Tela2} />
+        <Tab.Screen name="Tela3Screen" component={Tela3} />
+        <Tab.Screen name="LoginScreen" component={Login} />
         <Tab.Screen name="Rotastab" component={Rotastab} />
 
       </Tab.Navigator>
     
   );
 }
+
 
 
 

@@ -1,70 +1,78 @@
 import React, { useState,useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView,TouchableOpacity, FlatList,  } from 'react-native';
+import { Text, View, StyleSheet, ScrollView,TouchableOpacity, FlatList,Alert  } from 'react-native';
+import { firestore } from "../Firebase"; 
+import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-
-export default function Home({ route }) {
-  const { formlembrete } = route.params || { formlembrete: { titulo: '', texto: '' } };
-  const [avisos, setAvisos] = useState(formlembrete ? [formlembrete] : []);
-  const [novoLembrete, setNovoLembrete] = useState({ titulo: '', texto: '' });
-
-  
-  useEffect(() => {
-    if (formlembrete.titulo !== '') {
-      setAvisos([...avisos, formlembrete]);
-    }
-  }, [formlembrete]);
-
+export default function Home() {
 
  
+  const [lembretes, setLembretes] = useState([]);
+
+ 
+  async function deletar(id) {
+    try {
+      await deleteDoc(doc(firestore, "LembretePessoais", id)); 
+      Alert.alert("Seu lembrete foi deletado com sucesso.");
+    } catch (error) {
+      console.error("Erro ao deletar Lembrete:", error);
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(firestore, 'LembretePessoais'), (querySnapshot) => {
+      const data = [];
+      querySnapshot.forEach((doc) => {
+        data.push({ ...doc.data(), id: doc.id });
+      });
+      setLembretes(data);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   
   
 
-
-  const renderItem = ({ item }) => (
-    <View style={styles.AvisoContainer}>
-      <View style={styles.Titulocontainer}>
-        <Text style={styles.Titulo}>{item.titulo}</Text>
-        <Text style={styles.data}>{item.data}</Text>
-      </View>
-      <Text style={styles.texto}>{item.texto}</Text>
-      <TouchableOpacity style={styles.butao}>
-        <Text style={styles.buttonText}>Saiba Mais</Text>
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
-    <View style={styles.fundo}>
-      <View style={styles.container}>
-        <View style={styles.usuarioContainer}>
-          <Text style={styles.texto}>Olá Jefferson L. Sousa</Text>
-        </View>
-
-
-        <View style={styles.semanaContainer}></View>
-
-
-
-<ScrollView style={styles.Scroll}>
-
-        <View style={styles.Avisos}>
-          <Text style={styles.TituloAviso}>Aviso Principal</Text>
-          <FlatList
-            data={avisos}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </View>
-        </ScrollView>
-
-
-
-      
+    <View style={styles.container}>
+      <View>
+        <Text style={styles.titulo}>Lista de encomendas de flores</Text>
       </View>
+
+      <FlatList
+        data={lembretes}
+        renderItem={({ item }) => {
+          return (
+           
+            <View style={[styles.AvisoContainer, { backgroundColor: item.cor }]}>
+
+            
+                <View style={styles.itens}>
+                  <Text style={styles.texto}> titulo: <Text style={styles.texto}>{item.titulo}</Text></Text>
+                  <Text style={styles.texto}> texto: <Text style={styles.texto}>{item.texto}</Text></Text>
+                  <Text style={styles.texto}> Data: <Text style={styles.texto}>{item.data}</Text></Text>
+                
+                </View>
+          
+
+              <View style={styles.botaoDeletar}>
+                <TouchableOpacity onPress={() => deletar(item.id)}>
+                  <MaterialCommunityIcons name="delete-empty" size={30} color="#fff" />
+                </TouchableOpacity>
+              </View>
+
+            </View>
+          );
+        }}
+      />
+      
     </View>
+   
+   
   );
-};
+}
 
 
 
@@ -127,7 +135,7 @@ marginRight:30,
     // Style your calendar here
   },
   AvisoContainer: {
-    backgroundColor: '#FFFFFF', 
+  
     borderRadius: 18,
     padding: 16,
     marginBottom: 16,

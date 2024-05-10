@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FlatList, TextInput, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, TextInput, Image,Alert } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useNavigation } from '@react-navigation/native';
+
+
+import { firestore } from "../Firebase"; 
+import { collection, addDoc } from "firebase/firestore"; 
 
 export default function CriarLembrete({ navigation }) {
   const navi = useNavigation();
@@ -12,26 +16,40 @@ export default function CriarLembrete({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
-
-  const [formlembrete, setFormlembrete] = useState({
-    titulo: '',
-    texto: '',
-  });
+//form 
+  const [titulo, setTitulo] = useState('');
+  const [texto, setTexto] = useState('');
+  const [data, setData] = useState('');
+  const [cor, setCor] = useState('');
   
-
-  const enviarlembretes = () => {
-    navigation.navigate('Home', { formlembrete });
-  };
-
+  async function addlembrete() {
+    try {
+      const docRef = await addDoc(collection(firestore, 'LembretePessoais'), {
+        titulo: titulo,
+        texto: texto,
+        data: data,
+        cor: selectedColor.cor,
+      });
+      console.log("flor cadastrado com ID: ", docRef.id);
+      Alert.alert("Cadastro", "flor cadastrado com sucesso");
+      navigation.navigate("Home");
+    } catch (error) {
+      console.error("Erro ao cadastrar seu lembrete: ", error);
+      Alert.alert("Erro", "Erro ao cadastrar seu Lembrete. Por favor, tente novamente.");
+    }
+  }
+  
+//separar
   const [selectedColor, setSelectedColor] = useState({
     image: require('../assets/tomate.png'),
     text: 'Tomate',
+    cor:'#FF6347',
   });
 
   const [mostrarCores, setMostrarCores] = useState(false);
   const colors = [
-    { text: 'Tomate', image: require('../assets/tomate.png') },
-    { text: 'Azul', image: require('../assets/azul.png') },
+    { text: 'Tomate', image: require('../assets/tomate.png'),  cor:'#FF6347' },
+    { text: 'Azul', image: require('../assets/azul.png') ,  cor:'#72A6E3'},
     // Adicionar outras cores 
   ];
 
@@ -55,30 +73,50 @@ export default function CriarLembrete({ navigation }) {
           </View>
 
           <View style={styles.form}>
+
+
             <Text style={styles.texto}>Título:</Text>
             <TextInput
               style={styles.input}
               placeholder="Título do lembrete"
-              value={formlembrete.titulo}
-              onChangeText={(text) => setFormlembrete({ ...formlembrete, titulo: text })}
-            />
+              onChangeText={setTitulo}
+              value={titulo}
+               />
+
+
 
             <Text style={styles.texto}>Descrição:</Text>
             <TextInput
               style={styles.input}
               placeholder="Texto do lembrete"
-              value={formlembrete.texto}
-              onChangeText={(text) => setFormlembrete({ ...formlembrete, texto: text })}
-            />
+              onChangeText={setTexto}
+              value={texto}
+              />
 
             <View style={styles.inline}>
+
               <View style={styles.sob}>
+
+
                 <Text style={styles.texto}>Hora:</Text>
-                <TextInput style={styles.inputmed} placeholder="HH:MM" />
+                <TextInput style={styles.inputmed} 
+                placeholder="HH:MM" />
               </View>
+
+
               <View style={styles.sob}>
+
+
+
                 <Text style={styles.texto}>Data:</Text>
-                <TextInput style={styles.inputmed} placeholder="DD/MM/YYYY" />
+                <TextInput style={styles.inputmed} 
+                placeholder="DD/MM/YYYY"
+                onChangeText={setData}
+              value={data}
+                />
+
+
+
               </View>
             </View>
 
@@ -103,7 +141,7 @@ export default function CriarLembrete({ navigation }) {
               </View>
             )}
 
-            <TouchableOpacity onPress={enviarlembretes}>
+            <TouchableOpacity onPress={addlembrete}>
               <View style={styles.buttonTop}>
                 <Text style={styles.txt}>Criar</Text>
               </View>

@@ -1,14 +1,15 @@
-
+import React from 'react'; 
+import {useCallback} from 'react'; 
 import { Text, SafeAreaView, StyleSheet, View, Image, ImageBackground, TouchableHighlight } from 'react-native';
 import { useNavigation, useFocusEffect  } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { useFonts } from 'expo-font';
-import React from 'react'; 
+
 
 
 
 //esse seria o pai
-export default function Tela2Screen() {
+export default function Tela3() {
   const navi = useNavigation();
  
   const [fontsLoaded, fontError] = useFonts({
@@ -31,24 +32,18 @@ export default function Tela2Screen() {
    };
  });
 
- const iniciarAnimacao = () => {
+ const iniciarAnimacao = useCallback(() => {
   larguraAnimada.value = withTiming(70, { duration: 500 });
-};
+}, [larguraAnimada]);
 
 
- useFocusEffect(
-  React.useCallback(() => {
-   
-    if (!larguraAnimada) return;
-
+useFocusEffect(
+  useCallback(() => {
     larguraAnimada.value = 20;
-
-  
-    
     iniciarAnimacao();
- 
-   }, [])
- );
+  }, [iniciarAnimacao, larguraAnimada])
+);
+
 
   return (
     <SafeAreaView style={styles.container}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Home from '../Home';
 import Chat from '../Chat';
@@ -26,38 +26,19 @@ export default function Rotastab() {
       >
 
 <Tab.Screen name="Home" component={Home}
-
-screenOptions={{
-  headerShown: false,
-  
+options={{
+  tabBarIcon: ({ color, size }) => (
+    <MaterialCommunityIcons name="HomeRoundedIcon" color={'#FFFFFF'} size={30} />
+  ),
 }}
-   options={{
-    tabBarIcon: ({focused }) => (
-      <Image source={require('./imagenIcons/homeIcon.png')}
-        style={{
-          width: 25,
-          height: 25,
-        
-        }}
-      />
-    ),
-    
-  }}
 />
 
       <Tab.Screen name="Calendario" component={Calendario}
-      
-      options={{
-        tabBarIcon: ({ focused }) => (
-          <Image source={require('./imagenIcons/calendarioicon.png')}
-            style={{
-              width: 25,
-              height: 25,
-            }}
-          />
-        ),
-    
-      }}
+     options={{
+      tabBarIcon: ({ color, size }) => (
+        <MaterialCommunityIcons name="CalendarTodayRoundedIcon" color={'#FFFFFF'} size={30} />
+      ),
+    }}
     />
      
     
@@ -80,30 +61,20 @@ screenOptions={{
 
       <Tab.Screen name="Chat" component={Chat}
       options={{
-        tabBarIcon: ({ focused }) => (
-          <Image source={require('./imagenIcons/chatIcon.png')}
-            style={{
-              width: 25,
-              height: 25,
-            }}
-          />
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="chat" color={'#FFFFFF'} size={30} />
         ),
       }}
+      
     />
 
 
       <Tab.Screen name="Horarios" component={Horarios}
-      
-      options={{
-        tabBarIcon: ({ focused }) => (
-          <Image source={require('./imagenIcons/rorarioIcon.png')}
-            style={{
-              width: 25,
-              height: 25,
-            }}
-          />
-        ),
-      }}
+   options={{
+    tabBarIcon: ({ color, size }) => (
+      <MaterialCommunityIcons name="home" color={'#FFFFFF'} size={30} />
+    ),
+  }}
     />
  
     </Tab.Navigator>

@@ -1,4 +1,6 @@
-import React from 'react'; 
+import React from 'react';
+import {useCallback} from 'react'; 
+
 import { Text, SafeAreaView, StyleSheet, View, Image, ImageBackground, TouchableHighlight } from 'react-native';
 import { useNavigation, useFocusEffect  } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
@@ -27,23 +29,22 @@ export default function TelaInicial() {
       borderRadius: 50,
     };
   });
-  const iniciarAnimacao = () => {
+
+
+ const iniciarAnimacao = useCallback(() => {
     larguraAnimada.value = withTiming(70, { duration: 500 });
-  };
-
- useFocusEffect(
-  React.useCallback(() => {
-   
-    if (!larguraAnimada) return;
-
-    larguraAnimada.value = 20;
+  }, [larguraAnimada]);
 
 
-
-    iniciarAnimacao();
-  
-    }, [])
+  useFocusEffect(
+    useCallback(() => {
+      larguraAnimada.value = 20;
+      iniciarAnimacao();
+    }, [iniciarAnimacao, larguraAnimada])
   );
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={require('../../assets/fundo1.png')} style={styles.image}>
