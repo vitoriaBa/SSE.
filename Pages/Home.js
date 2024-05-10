@@ -1,14 +1,15 @@
 import React, { useState,useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView,TouchableOpacity, FlatList,Alert  } from 'react-native';
+import { Text, View, StyleSheet, ScrollView,TouchableOpacity, FlatList,Alert,Dimensions   } from 'react-native';
 import { firestore } from "../Firebase"; 
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Home() {
-
- 
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+  
   const [lembretes, setLembretes] = useState([]);
-
+  
  
   async function deletar(id) {
     try {
@@ -36,25 +37,26 @@ export default function Home() {
 
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.titulo}>Lista de encomendas de flores</Text>
-      </View>
+    <View style={[styles.fundo, { width: windowWidth, height:windowHeight }]}> 
+    <View style={[styles.container ,{ width: windowWidth}]}>
+      <View style={[styles.Avisos ,{ width: windowWidth}]} >
+
+      
 
       <FlatList
         data={lembretes}
         renderItem={({ item }) => {
           return (
            
-            <View style={[styles.AvisoContainer, { backgroundColor: item.cor }]}>
+            <View style={[styles.AvisoContainer, { borderColor: item.cor }]}>
 
             
-                <View style={styles.itens}>
-                  <Text style={styles.texto}> titulo: <Text style={styles.texto}>{item.titulo}</Text></Text>
-                  <Text style={styles.texto}> texto: <Text style={styles.texto}>{item.texto}</Text></Text>
-                  <Text style={styles.texto}> Data: <Text style={styles.texto}>{item.data}</Text></Text>
-                
+     <View style={styles.Titulocontainer}>
+                  <Text style={styles.Titulo}> titulo: <Text style={styles.texto}>{item.titulo}</Text></Text>
+                 
+                  <Text style={styles.data}> Data: <Text style={styles.texto}>{item.data}</Text></Text>
                 </View>
+                <Text style={styles.texto}> texto: <Text style={styles.texto}>{item.texto}</Text></Text>
           
 
               <View style={styles.botaoDeletar}>
@@ -67,9 +69,9 @@ export default function Home() {
           );
         }}
       />
-      
+      </View>
     </View>
-   
+    </View>
    
   );
 }
@@ -88,14 +90,15 @@ const styles = StyleSheet.create({
 
   container: {
     display:'flex',
-    backgroundColor:'#FFFFFF',
-    width:385,
-    height:725,
-    borderRadius:30,
-    borderBottomRadius:50,
     justifyContent: 'center',
     alignItems:'center',
     flexDirection:'column',
+    backgroundColor:'#FFFFFF',
+ 
+    height:750,
+    borderRadius:30,
+    borderBottomRadius:50,
+    
     padding: 0,
     borderWidth:10,
     borderColor:'#206550',
@@ -105,13 +108,18 @@ const styles = StyleSheet.create({
   Titulocontainer:{
     flexDirection: 'row',
     justifyContent: 'space-between',
+    
   },
+
+
   Avisos:{
     justifyContent: 'center',
   alignItems:'center',
-   //backgroundColor:'#000',
-   width:400,
+ 
   },
+
+
+
   TituloAviso:{
     justifyContent: 'center',
   alignItems:'center',
@@ -135,18 +143,18 @@ marginRight:30,
     // Style your calendar here
   },
   AvisoContainer: {
-  
+    backgroundColor:'#FFFFFF',
     borderRadius: 18,
-    padding: 16,
+    
     marginBottom: 16,
     shadowColor: '#000',
     width:350,
     height:200,
     borderWidth:3,
     borderBottomWidth:8,
-    borderColor:'#206550',
+
     justifyContent: 'space-between',
-    marginRight:35,
+
   },
  Titulo: {
     fontSize: 16,

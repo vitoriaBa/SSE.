@@ -19,7 +19,7 @@ export default function TelaInicial() {
   }
 
   // animacao da bolinha
-  const larguraAnimada = useSharedValue(10);
+/*  const larguraAnimada = useSharedValue(10);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -43,7 +43,7 @@ export default function TelaInicial() {
     }, [iniciarAnimacao, larguraAnimada])
   );
 
-
+*/
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +61,7 @@ export default function TelaInicial() {
           </Text>
           <View style={styles.bolinhasContainer}>
           
-          <Animated.View style={animatedStyle} />
+       {/*   <Animated.View style={animatedStyle} />*/}
 
             <View style={styles.Bolinha}></View>
             <View style={styles.Bolinha}></View>

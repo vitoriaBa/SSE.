@@ -21,7 +21,7 @@ export default function Tela3() {
   }
 
  // animacao da bolinha
- const larguraAnimada = useSharedValue(10);
+  /*const larguraAnimada = useSharedValue(10);
 
  const animatedStyle = useAnimatedStyle(() => {
    return {
@@ -32,7 +32,7 @@ export default function Tela3() {
    };
  });
 
- const iniciarAnimacao = useCallback(() => {
+const iniciarAnimacao = useCallback(() => {
   larguraAnimada.value = withTiming(70, { duration: 500 });
 }, [larguraAnimada]);
 
@@ -43,7 +43,7 @@ useFocusEffect(
     iniciarAnimacao();
   }, [iniciarAnimacao, larguraAnimada])
 );
-
+*/
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,7 +72,7 @@ useFocusEffect(
 
 <View style={styles.Bolinha}></View>
 <View style={styles.Bolinha}></View>
-<Animated.View style={animatedStyle} />
+
 
 
 </View>
