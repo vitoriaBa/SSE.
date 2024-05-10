@@ -28,7 +28,7 @@ export default function Rotastab() {
 <Tab.Screen name="Home" component={Home}
 options={{
   tabBarIcon: ({ color, size }) => (
-    <MaterialCommunityIcons name="HomeRoundedIcon" color={'#FFFFFF'} size={30} />
+    <MaterialCommunityIcons name="home-variant" color={'#FFFFFF'} size={30} />
   ),
 }}
 />
@@ -36,7 +36,7 @@ options={{
       <Tab.Screen name="Calendario" component={Calendario}
      options={{
       tabBarIcon: ({ color, size }) => (
-        <MaterialCommunityIcons name="CalendarTodayRoundedIcon" color={'#FFFFFF'} size={30} />
+        <MaterialCommunityIcons name="calendar-blank-outline" color={'#FFFFFF'} size={30} />
       ),
     }}
     />
@@ -62,7 +62,7 @@ options={{
       <Tab.Screen name="Chat" component={Chat}
       options={{
         tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="chat" color={'#FFFFFF'} size={30} />
+          <MaterialCommunityIcons name="chat-processing-outline" color={'#FFFFFF'} size={30} />
         ),
       }}
       
@@ -72,7 +72,7 @@ options={{
       <Tab.Screen name="Horarios" component={Horarios}
    options={{
     tabBarIcon: ({ color, size }) => (
-      <MaterialCommunityIcons name="home" color={'#FFFFFF'} size={30} />
+      <MaterialCommunityIcons name="clock-time-four-outline" color={'#FFFFFF'} size={30} />
     ),
   }}
     />
