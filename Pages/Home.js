@@ -58,7 +58,7 @@ export default function Home() {
                   <Text style={styles.data}> Data: <Text style={styles.texto}>{item.data}</Text></Text>
                 </View>
                 <Text style={styles.texto}> texto: <Text style={styles.texto}>{item.texto}</Text></Text>
-               {/* close-thick */ }
+             
 
               <View style={styles.botaoDeletar}>
                 <TouchableOpacity onPress={() => deletar(item.id)}>

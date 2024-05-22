@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FlatList, TextInput, Image,Alert } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, TextInput, Image,Alert,Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useNavigation } from '@react-navigation/native';
 
 
 import { firestore } from "../Firebase"; 
 import { collection, addDoc } from "firebase/firestore"; 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 export default function CriarLembrete({ navigation }) {
+
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+
+
   const navi = useNavigation();
   const [fontsLoaded] = useFonts({
     'BrunoAce-Regular': require('../assets/fonts/BrunoAce-Regular.ttf'),
@@ -50,6 +57,11 @@ export default function CriarLembrete({ navigation }) {
   const colors = [
     { text: 'Tomate', image: require('../assets/tomate.png'),  cor:'#FF6347' },
     { text: 'Azul', image: require('../assets/azul.png') ,  cor:'#72A6E3'},
+    { text: 'Banana', image: require('../assets/banana.png') ,  cor:'#FFE866'},
+    { text: 'Uva', image: require('../assets/uva.png') ,  cor:'#8145E3'},
+    { text: 'Tangerina', image: require('../assets/tangerina.png') ,  cor:'#DD4124'},
+    { text: 'Manjericão', image: require('../assets/manjericao.png') ,  cor:'#4A8740'},
+    { text: 'lavanda', image: require('../assets/lavanda.png') ,  cor:'#9889F4'},
     // Adicionar outras cores 
   ];
 
@@ -59,12 +71,12 @@ export default function CriarLembrete({ navigation }) {
   };
 
   return (
-    <View style={styles.fundo}>
-      <View style={styles.container}>
+    <View style={[styles.fundo, { width: windowWidth, height:windowHeight }]}>
+      <View style={[styles.container ,{ width: windowWidth,height:windowHeight}]}>
         <View style={styles.container2}>
           <View style={styles.sair}>
             <TouchableOpacity onPress={() => navi.navigate('Home')} style={styles.button}>
-              <Text style={styles.titulo}>X</Text>
+            <MaterialCommunityIcons name="close-thick" size={40} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
 
@@ -133,7 +145,7 @@ export default function CriarLembrete({ navigation }) {
                 {colors.map((color, index) => (
                   <TouchableOpacity key={index} onPress={() => handleColorSelect(color)} style={styles.colorButton}>
                     <View style={styles.inlineView}>
-                      <Image source={color.image} style={{ width: 50, height: 50 }} />
+                      <Image source={color.image} style={{ width: 30, height: 30, marginBottom:20 }} />
                       <Text> {color.text}</Text>
                     </View>
                   </TouchableOpacity>
