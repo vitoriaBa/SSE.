@@ -9,7 +9,7 @@ import Tela2 from '../SlidesPages/Tela2';
 import Tela3 from '../SlidesPages/Tela3';
 import Login from '../SlidesPages/Login';  
 import Rotastab from '../TotasRotas/Rotastab'; 
-
+import Usuario from '../Usuario'; 
 
 
 
@@ -25,7 +25,7 @@ export default function RotasScreen() {
         <Tab.Screen name="Tela3Screen" component={Tela3} />
         <Tab.Screen name="LoginScreen" component={Login} />
         <Tab.Screen name="Rotastab" component={Rotastab} />
-
+        <Tab.Screen name="Usuario" component={Usuario} />
       </Tab.Navigator>
     
   );

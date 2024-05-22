@@ -1,37 +1,61 @@
 import React from 'react'; 
-import {Text,View, SafeAreaView, StyleSheet,TextInput,Image,TouchableOpacity } from 'react-native';
-
+import  { useState,useEffect } from 'react';
+import {Text,View, SafeAreaView, StyleSheet,TextInput,Image,TouchableOpacity,Dimensions, } from 'react-native';
+import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
+import { firestore } from "../Firebase"; 
 import { useNavigation} from '@react-navigation/native';
 
 
  export default function Horarios({route}){
   const navi = useNavigation();
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+
+  const [dadosA, setDadosA] = useState([]);
   
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(firestore, 'dadosAluno'), (querySnapshot) => {
+      const data = [];
+      querySnapshot.forEach((doc) => {
+        data.push({ ...doc.data(), id: doc.id });
+      });
+      setDadosA(data);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
   return (
-    <View style={styles.fundo}>
-    <View style={styles.container}>
+    <View  style={[styles.fundo, { width: windowWidth, height:windowHeight }]}>
+    <View  style={[styles.container ,{ width: windowWidth,  height:windowHeight }]}>
       
       <View style={styles.containerTitulo}>
       <View style={styles.inline}>
         <TouchableOpacity style={styles.butonTitulo}
        onPress={() => navi.navigate('Home')}
         >
-          <Image style={styles.img} source={require('../assets/tomate.png')}></Image>
+          <Image style={styles.img} source={require('../assets/setaE.png')}></Image>
         </TouchableOpacity>
 
         <Text style={styles.Titulo}>Horários</Text>
 
-        <TouchableOpacity style={styles.butonTitulo}>
-          {/*imagem do usuario*/}
-        <Image style={styles.img} source={require('../assets/azul.png')}></Image>
+        <TouchableOpacity style={styles.butonTitulo}
+        onPress={() => navi.navigate('Usuario')}>
+        <Image style={styles.img} source={require('../assets/usuario.png')}></Image>
          </TouchableOpacity>
          </View>
       </View>
 
 
-      <View style={styles.form}>
+    
         
-            <Text style={styles.texto}>Título:</Text>
+            <Text style={styles.texto}>Curso:</Text>
+            <View style={styles.form}>
+            
+        
+           
             <TextInput
               style={styles.input}
               value='Desenvolvimento de sistemas'
@@ -69,14 +93,12 @@ import { useNavigation} from '@react-navigation/native';
             </View>
 
 
-
-
-            {/*tabela*/}
+        {/*tabela*/}
 
           <View style={styles.tabelahorarios}> 
 
           </View>
-
+   
      </View>
     </View>
     </View>
@@ -84,28 +106,40 @@ import { useNavigation} from '@react-navigation/native';
 };
 
 const styles = StyleSheet.create({
- fundo:{
-  justifyContent: 'center',
-  alignItems:'center',
-  backgroundColor:'#206550',
-  padding: 0,
-  margin:0,
-  position:'absolute',
-},
-  container: {
-    backgroundColor:'#FFFFFF',
-    width:385,
-    height:725,
-    borderRadius:30,
-    borderBottomRadius:50,
+  fundo:{
     justifyContent: 'center',
     alignItems:'center',
-    flexDirection:'column',
+    backgroundColor:'#206550',
     padding: 0,
-    borderWidth:10,
-    borderColor:'#206550',
     margin:0,
-
+    position:'absolute',
+  },
+  
+    container: {
+      display:'flex',
+      justifyContent: 'center',
+      alignItems:'center',
+      flexDirection:'column',
+      backgroundColor:'#FFFFFF',
+   
+      height:750,
+      borderRadius:30,
+      borderBottomRadius:50,
+      
+      padding: 0,
+      borderWidth:10,
+      borderColor:'#206550',
+      margin:0,
+  
+    },
+img:{
+  width:50,
+  height:50,
+},
+  form:{
+    marginBottom:50,
+    justifyContent: 'center',
+    alignItems:'center',
   },
  
   usuarioContainer: {
@@ -150,9 +184,9 @@ const styles = StyleSheet.create({
     borderBottomWidth:5,
   },
   tabelahorarios:{
-    borderRadius: 30,
+    borderRadius: 10,
     margin: 5,
-    width: 300,
+    width: 330,
     height: 300,
     borderBottomWidth:10,
     borderColor:'#95877A',
@@ -189,7 +223,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#236E57',
     borderRadius: 20,
     width: 340,
-    height: 70,
+    height: 80,
+   
   },
   butonTitulo:{
     display:'flex',

@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from 'react';
+import React from 'react'; 
+import { useState,useEffect } from 'react';
 import { Text, View, StyleSheet, ScrollView,TouchableOpacity, FlatList,Alert,Dimensions   } from 'react-native';
 import { firestore } from "../Firebase"; 
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
@@ -38,7 +39,7 @@ export default function Home() {
 
   return (
     <View style={[styles.fundo, { width: windowWidth, height:windowHeight }]}> 
-    <View style={[styles.container ,{ width: windowWidth}]}>
+    <View style={[styles.container ,{ width: windowWidth,height:windowHeight}]}>
       <View style={[styles.Avisos ,{ width: windowWidth}]} >
 
       
@@ -57,11 +58,11 @@ export default function Home() {
                   <Text style={styles.data}> Data: <Text style={styles.texto}>{item.data}</Text></Text>
                 </View>
                 <Text style={styles.texto}> texto: <Text style={styles.texto}>{item.texto}</Text></Text>
-          
+               {/* close-thick */ }
 
               <View style={styles.botaoDeletar}>
                 <TouchableOpacity onPress={() => deletar(item.id)}>
-                  <MaterialCommunityIcons name="delete-empty" size={30} color="#fff" />
+                  <MaterialCommunityIcons name="delete-empty" size={50} color="#206550" />
                 </TouchableOpacity>
               </View>
 
