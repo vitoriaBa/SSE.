@@ -1,6 +1,6 @@
 import React from 'react'; 
 import  { useState,useEffect } from 'react';
-import {Text,View, SafeAreaView, StyleSheet,TextInput,Image,TouchableOpacity,Dimensions, } from 'react-native';
+import {Text,View, SafeAreaView, FlatList,StyleSheet,TextInput,Image,TouchableOpacity,Dimensions, } from 'react-native';
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
 import { firestore } from "../Firebase"; 
 import { useNavigation} from '@react-navigation/native';
@@ -11,16 +11,16 @@ import { useNavigation} from '@react-navigation/native';
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
 
-  const [dadosA, setDadosA] = useState([]);
+  const [horas, setHoras] = useState([]);
   
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(firestore, 'dadosAluno'), (querySnapshot) => {
+    const unsubscribe = onSnapshot(collection(firestore, 'horarios'), (querySnapshot) => {
       const data = [];
       querySnapshot.forEach((doc) => {
         data.push({ ...doc.data(), id: doc.id });
       });
-      setDadosA(data);
+      setHoras(data);
     });
 
     return () => unsubscribe();
@@ -97,6 +97,33 @@ import { useNavigation} from '@react-navigation/native';
 
           <View style={styles.tabelahorarios}> 
 
+        
+            <View style={styles.column}>
+            <Text style={styles.Titulo}> 19h00 - 19h45 </Text>
+            <Text style={styles.Titulo}> 19h45 - 20h30 </Text>
+            <Text style={styles.Titulo}> 20h30 - 20h45</Text>
+            <Text style={styles.Titulo}> 20h45 - 21h30 </Text>
+            <Text style={styles.Titulo}> 21h30 - 22h15 </Text>
+            <Text style={styles.Titulo}> 22h15 - 23h00 </Text>
+       </View>
+       <View style={styles.column}>
+            <Text style={styles.texto}>{item.aula1}</Text>    
+           <Text style={styles.texto}>{item.aula2}</Text> 
+           <Text style={styles.Titulo}> Intervalo </Text>
+           <Text style={styles.texto}>{item.aula3}</Text>
+           <Text style={styles.texto}>{item.aula4}</Text>
+           <Text style={styles.texto}>{item.aula5}</Text>
+          </View>            
+          <View style={styles.column}>
+           <Text style={styles.texto}>{item.professor}</Text>    
+           <Text style={styles.texto}>{item.professor}</Text> 
+           <Text style={styles.Titulo}> 15min </Text>
+           <Text style={styles.texto}>{item.professor}</Text>
+           <Text style={styles.texto}>{item.professor}</Text>
+           <Text style={styles.texto}>{item.professor}</Text>
+       
+                       </View>
+ 
           </View>
    
      </View>

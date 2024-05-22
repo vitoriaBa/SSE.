@@ -25,10 +25,12 @@ export default function Rotastab() {
       }}
       >
 
+
+
 <Tab.Screen name="Home" component={Home}
 options={{
   tabBarIcon: ({ color, size }) => (
-    <MaterialCommunityIcons name="home-variant" color={'#FFFFFF'} size={30} />
+    <MaterialCommunityIcons name="home-variant" color={'#FFFFFF'} size={40} />
   ),
 }}
 />
@@ -36,14 +38,35 @@ options={{
       <Tab.Screen name="Calendario" component={Calendario}
      options={{
       tabBarIcon: ({ color, size }) => (
-        <MaterialCommunityIcons name="calendar-blank-outline" color={'#FFFFFF'} size={30} />
+        <MaterialCommunityIcons name="calendar-blank-outline" color={'#FFFFFF'} size={40} />
       ),
     }}
     />
      
-    
 
-      <Tab.Screen name=" " component={CriarLembrete} options={{
+
+
+      <Tab.Screen name="Chat" component={Chat}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="chat-processing-outline" color={'#FFFFFF'} size={40} />
+        ),
+      }}
+      
+    />
+
+
+   {/*   <Tab.Screen name="Horarios" component={Horarios}
+   options={{
+    tabBarIcon: ({ color, size }) => (
+      <MaterialCommunityIcons name="clock-time-four-outline" color={'#FFFFFF'} size={30} />
+    ),
+  }}
+/>*/}
+ 
+
+
+ <Tab.Screen name=" " component={CriarLembrete} options={{
           tabBarIcon: ({ focused }) => (
             <Image source={require('./imagenIcons/addbuton.png')}
               style={{
@@ -58,25 +81,6 @@ options={{
         }}
       />
 
-
-      <Tab.Screen name="Chat" component={Chat}
-      options={{
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="chat-processing-outline" color={'#FFFFFF'} size={30} />
-        ),
-      }}
-      
-    />
-
-
-      <Tab.Screen name="Horarios" component={Horarios}
-   options={{
-    tabBarIcon: ({ color, size }) => (
-      <MaterialCommunityIcons name="clock-time-four-outline" color={'#FFFFFF'} size={30} />
-    ),
-  }}
-    />
- 
     </Tab.Navigator>
 
   );

@@ -45,17 +45,19 @@ export default function Home() {
 
             
      <View style={styles.dadoscontainer}>
-     <Text style={styles.Titulo}> Nome: 
-     <Text style={styles.texto}>{item.nome}</Text></Text>
+     <Text style={styles.Titulo}> Nome: </Text>
+     <Text style={styles.texto}>{item.nome}</Text>
     
-    <Text style={styles.Titulo}>Instituição de Ensino: 
-    <Text style={styles.texto}>{item.Instituicao}</Text></Text>             
+    <Text style={styles.Titulo}>Instituição de Ensino: </Text>     
+    <Text style={styles.texto}>{item.Instituicao}</Text>        
     
-    <Text style={styles.data}> Curso/Série/Ensino: 
-    <Text style={styles.texto}>{item.cursos}</Text></Text>
+    <Text style={styles.data}> Curso/Série/Ensino: </Text>
+    <Text style={styles.texto}>{item.cursos}</Text>
               
-                <Text style={styles.texto}> Matrícula: <Text style={styles.texto}>{item.matricula}</Text></Text>
-                <Text style={styles.texto}> Data de Nacimento: <Text style={styles.texto}>{item.dataNct}</Text></Text>
+                <Text style={styles.texto}> Matrícula:</Text>
+                 <Text style={styles.texto}>{item.matricula}</Text>
+                <Text style={styles.texto}> Data de Nacimento:</Text>
+                 <Text style={styles.texto}>{item.dataNct}</Text>
                
                 </View>
                           {/* close-thick */ }
