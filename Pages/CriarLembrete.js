@@ -23,6 +23,8 @@ export default function CriarLembrete({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
+
+  //converter data para
 //form 
   const [titulo, setTitulo] = useState('');
   const [texto, setTexto] = useState('');
@@ -37,8 +39,8 @@ export default function CriarLembrete({ navigation }) {
         data: data,
         cor: selectedColor.cor,
       });
-      console.log("flor cadastrado com ID: ", docRef.id);
-      Alert.alert("Cadastro", "flor cadastrado com sucesso");
+      console.log("lembrete cadastrado com ID: ", docRef.id);
+      Alert.alert("Cadastro", "Seu lembrete foi criado com sucesso");
       navigation.navigate("Home");
     } catch (error) {
       console.error("Erro ao cadastrar seu lembrete: ", error);
