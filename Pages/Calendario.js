@@ -4,9 +4,9 @@ import {Agenda, DateData, AgendaEntry, AgendaSchedule, } from 'react-native-cale
 import {LocaleConfig} from 'react-native-calendars';
 import { collection, onSnapshot} from "firebase/firestore"; 
 import { firestore } from "../Firebase"; 
-//interface State {
-//  items?: AgendaSchedule;
-//}
+interface State {
+  items?: AgendaSchedule;
+}
 
 
 LocaleConfig.locales['br'] = {
@@ -108,17 +108,15 @@ export default class AgendaScreen extends Component/*<State>*/ {
       });
     });
 
-    // return () => unsubscribe();
+    return () => unsubscribe();
   };
 
-  formatDate(date) {
+/*  formatDate(date) {
     const day = date.getDate();
     const month = date.getMonth() + 1; // Os meses começam do zero
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
-  }
-
-  // Outros métodos da classe...
+  }*/
 
 
 
@@ -203,75 +201,3 @@ const styles = StyleSheet.create({
   }
 });
 
-/*loadItems = async (day: DateData) => {
-    try {
-        const querySnapshot = await getDocs(collection(firestore, 'LembretePessoais'));
-        const items: AgendaSchedule = {};
-
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const strTime = this.timeToString(data.data.toDate().getTime());
-
-            if (!items[strTime]) {
-                items[strTime] = [];
-            }
-
-            items[strTime].push({
-                name: data.titulo,
-                height: 50, // Defina a altura conforme necessário
-                day: strTime
-            });
-        });
-
-        this.setState({
-            items: items
-        });
-    } catch (error) {
-        console.error("Erro ao carregar os lembretes: ", error);
-    }
-};
-
-
-
-
-
-essepo
-renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
-    const fontSize = isFirst ? 16 : 14;
-    const color = isFirst ? 'black' : '#43515c';
-
-    return (
-        <TouchableOpacity
-            style={[styles.item, {height: reservation.height}]}
-            onPress={() => Alert.alert(reservation.name)}
-        >
-            <Text style={{fontSize, color}}>{reservation.name}</Text>
-        </TouchableOpacity>
-    );
-};
-
-
-atuaçixa
-async addlembrete() {
-    try {
-        const docRef = await addDoc(collection(firestore, 'LembretePessoais'), {
-            titulo: titulo,
-            texto: texto,
-            data: new Date(data), // Convertendo a data para o tipo Date
-            cor: selectedColor.cor,
-        });
-        
-        console.log("Lembrete cadastrado com ID: ", docRef.id);
-        Alert.alert("Cadastro", "Lembrete cadastrado com sucesso");
-        
-        // Após adicionar o lembrete, recarregue os itens na Agenda
-        this.loadItems(new Date());
-        
-        navigation.navigate("Home");
-    } catch (error) {
-        console.error("Erro ao cadastrar seu lembrete: ", error);
-        Alert.alert("Erro", "Erro ao cadastrar seu Lembrete. Por favor, tente novamente.");
-    }
-}
-
-*/

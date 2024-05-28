@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+
+import { useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, FlatList, TextInput, Image,Alert,Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useNavigation } from '@react-navigation/native';
 
+import { DatePickerInput } from 'react-native-paper-dates';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { firestore } from "../Firebase"; 
 import { collection, addDoc } from "firebase/firestore"; 
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 
 export default function CriarLembrete({ navigation }) {
@@ -28,7 +34,8 @@ export default function CriarLembrete({ navigation }) {
 //form 
   const [titulo, setTitulo] = useState('');
   const [texto, setTexto] = useState('');
-  const [data, setData] = useState('');
+  //const [data, setData] =React.useState(undefined)
+  const [data, setInputDate] = React.useState(new Date())
   const [cor, setCor] = useState('');
   
   async function addlembrete() {
@@ -109,25 +116,36 @@ export default function CriarLembrete({ navigation }) {
 
             <View style={styles.inline}>
 
+            <View style={styles.inline}>
+
+            <SafeAreaProvider>
+      <View style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
+        <DatePickerInput
+          locale="en"
+          label="Birthdate"
+          value={data}
+          onChange={(d) => setInputDate(d)}
+          inputMode="start"
+          style={{width: 200}}
+          mode="outlined"
+        />
+      </View>
+    </SafeAreaProvider>
+
+<View style={styles.sob}>
+</View>
+</View>
+
               <View style={styles.sob}>
 
 
-                <Text style={styles.texto}>Hora:</Text>
-                <TextInput style={styles.inputmed} 
-                placeholder="HH:MM" />
-              </View>
 
-
-              <View style={styles.sob}>
-
-
-
-                <Text style={styles.texto}>Data:</Text>
+               { /*<Text style={styles.texto}>Data:</Text>
                 <TextInput style={styles.inputmed} 
                 placeholder="DD/MM/YYYY"
-                onChangeText={setData}
+                onChangeText={(text) => setData(text)}
               value={data}
-                />
+  />*/}
 
 
 
