@@ -23,7 +23,7 @@ export default function RotasScreen() {
         <Tab.Screen name="TelaInicial" component={TelaInicial} />
         <Tab.Screen name="Tela2Screen" component={Tela2} />
         <Tab.Screen name="Tela3Screen" component={Tela3} />
-        <Tab.Screen name="LoginScreen" component={Login} />
+        <Tab.Screen name="Login" component={Login} />
         <Tab.Screen name="Rotastab" component={Rotastab} />
         <Tab.Screen name="Usuario" component={Usuario} />
       </Tab.Navigator>

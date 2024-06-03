@@ -1,4 +1,4 @@
-/*import React from 'react'; 
+import React from 'react'; 
 
 import { Text, SafeAreaView, StyleSheet,View,Image,TouchableOpacity,ImageBackground, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -218,4 +218,4 @@ margin:5,
      borderWidth: 5,
   }
   
-});*/
+});

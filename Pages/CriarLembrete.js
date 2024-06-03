@@ -1,26 +1,14 @@
 import React from 'react';
-
 import { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FlatList, TextInput, Image,Alert,Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, Image, Alert, Dimensions, Platform } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useNavigation } from '@react-navigation/native';
-
-import { DatePickerInput } from 'react-native-paper-dates';
-import { SafeAreaProvider } from "react-native-safe-area-context";
-
-import { firestore } from "../Firebase"; 
-import { collection, addDoc } from "firebase/firestore"; 
-
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { firestore } from "../Firebase";
+import { collection, addDoc } from "firebase/firestore";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-
-
 export default function CriarLembrete({ navigation }) {
-
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
-
-
   const navi = useNavigation();
   const [fontsLoaded] = useFonts({
     'BrunoAce-Regular': require('../assets/fonts/BrunoAce-Regular.ttf'),
@@ -30,14 +18,31 @@ export default function CriarLembrete({ navigation }) {
     return null;
   }
 
-  //converter data para
-//form 
   const [titulo, setTitulo] = useState('');
   const [texto, setTexto] = useState('');
-  //const [data, setData] =React.useState(undefined)
-  const [data, setInputDate] = React.useState(new Date())
-  const [cor, setCor] = useState('');
-  
+  const [data, setData] = useState(new Date());
+  const [modo, setModo] = useState('data');
+  const [show, setShow] = useState(false);
+  const [textodata, setTextodata] = useState('Sem Data Colocada');
+
+  const mudar = (event, selecionaData) => {
+    const atualData = selecionaData || data;
+    setShow(Platform.OS === "ios")
+    setData(atualData);
+
+    let tempData = new Date(atualData);
+    let fData = tempData.getDate() + '/' + (tempData.getMonth() + 1) + '/' + tempData.getFullYear();
+    let fTime = "Horas: " + tempData.getHours() + 'minutos ' + tempData.getMinutes();
+    setTextodata(fData + '\n' + fTime);
+
+    console.log(fData + '(' + fTime + ')');
+  }
+
+  const showModo = atualData => {
+    setShow(true);
+    setModo(atualData);
+  }
+
   async function addlembrete() {
     try {
       const docRef = await addDoc(collection(firestore, 'LembretePessoais'), {
@@ -54,23 +59,22 @@ export default function CriarLembrete({ navigation }) {
       Alert.alert("Erro", "Erro ao cadastrar seu Lembrete. Por favor, tente novamente.");
     }
   }
-  
-//separar
+
   const [selectedColor, setSelectedColor] = useState({
     image: require('../assets/tomate.png'),
     text: 'Tomate',
-    cor:'#FF6347',
+    cor: '#FF6347',
   });
 
   const [mostrarCores, setMostrarCores] = useState(false);
   const colors = [
-    { text: 'Tomate', image: require('../assets/tomate.png'),  cor:'#FF6347' },
-    { text: 'Azul', image: require('../assets/azul.png') ,  cor:'#72A6E3'},
-    { text: 'Banana', image: require('../assets/banana.png') ,  cor:'#FFE866'},
-    { text: 'Uva', image: require('../assets/uva.png') ,  cor:'#8145E3'},
-    { text: 'Tangerina', image: require('../assets/tangerina.png') ,  cor:'#DD4124'},
-    { text: 'Manjericão', image: require('../assets/manjericao.png') ,  cor:'#4A8740'},
-    { text: 'lavanda', image: require('../assets/lavanda.png') ,  cor:'#9889F4'},
+    { text: 'Tomate', image: require('../assets/tomate.png'), cor: '#FF6347' },
+    { text: 'Azul', image: require('../assets/azul.png'), cor: '#72A6E3' },
+    { text: 'Banana', image: require('../assets/banana.png'), cor: '#FFE866' },
+    { text: 'Uva', image: require('../assets/uva.png'), cor: '#8145E3' },
+    { text: 'Tangerina', image: require('../assets/tangerina.png'), cor: '#DD4124' },
+    { text: 'Manjericão', image: require('../assets/manjericao.png'), cor: '#4A8740' },
+    { text: 'lavanda', image: require('../assets/lavanda.png'), cor: '#9889F4' },
     // Adicionar outras cores 
   ];
 
@@ -80,275 +84,147 @@ export default function CriarLembrete({ navigation }) {
   };
 
   return (
-    <View style={[styles.fundo, { width: windowWidth, height:windowHeight }]}>
-      <View style={[styles.container ,{ width: windowWidth,height:windowHeight}]}>
-        <View style={styles.container2}>
-          <View style={styles.sair}>
-            <TouchableOpacity onPress={() => navi.navigate('Home')} style={styles.button}>
-            <MaterialCommunityIcons name="close-thick" size={40} color="#FFFFFF" />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.inlineTitulo}>
-            <Text style={styles.titulo}>Lembretes</Text>
-          </View>
-
-          <View style={styles.form}>
-
-
-            <Text style={styles.texto}>Título:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Título do lembrete"
-              onChangeText={setTitulo}
-              value={titulo}
-               />
-
-
-
-            <Text style={styles.texto}>Descrição:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Texto do lembrete"
-              onChangeText={setTexto}
-              value={texto}
-              />
-
-            <View style={styles.inline}>
-
-            <View style={styles.inline}>
-
-            <SafeAreaProvider>
-      <View style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
-        <DatePickerInput
-          locale="en"
-          label="Birthdate"
-          value={data}
-          onChange={(d) => setInputDate(d)}
-          inputMode="start"
-          style={{width: 200}}
-          mode="outlined"
-        />
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navi.navigate('Home')} style={styles.closeButton}>
+          <MaterialCommunityIcons name="close-thick" size={40} color="#FFFFFF" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Lembretes</Text>
       </View>
-    </SafeAreaProvider>
 
-<View style={styles.sob}>
-</View>
-</View>
+      <View style={styles.form}>
+        <Text style={styles.label}>Título:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Título do lembrete"
+          onChangeText={setTitulo}
+          value={titulo}
+        />
 
-              <View style={styles.sob}>
+        <Text style={styles.label}>Descrição:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Texto do lembrete"
+          onChangeText={setTexto}
+          value={texto}
+        />
 
-
-
-               { /*<Text style={styles.texto}>Data:</Text>
-                <TextInput style={styles.inputmed} 
-                placeholder="DD/MM/YYYY"
-                onChangeText={(text) => setData(text)}
+        <View style={styles.dateTimeContainer}>
+          <Text style={styles.label}>Data:</Text>
+          <TouchableOpacity style={styles.dateTimeButton} onPress={() => showModo('data')}>
+            <Text>{textodata}</Text>
+          </TouchableOpacity>
+          {show && (
+            <DateTimePicker
+              testID='dateTime'
               value={data}
-  />*/}
-
-
-
-              </View>
-            </View>
-
-            <Text style={styles.texto}>Cor</Text>
-            <TouchableOpacity style={styles.button} onPress={() => setMostrarCores(true)}>
-              <View style={styles.inlineView}>
-                <Image source={selectedColor.image} style={{ width: 40, height: 40 }} />
-                <Text style={styles.texto}>{selectedColor.text}</Text>
-              </View>
-            </TouchableOpacity>
-
-            {mostrarCores && (
-              <View style={styles.texte}>
-                {colors.map((color, index) => (
-                  <TouchableOpacity key={index} onPress={() => handleColorSelect(color)} style={styles.colorButton}>
-                    <View style={styles.inlineView}>
-                      <Image source={color.image} style={{ width: 30, height: 30, marginBottom:20 }} />
-                      <Text> {color.text}</Text>
-                    </View>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-
-            <TouchableOpacity onPress={addlembrete}>
-              <View style={styles.buttonTop}>
-                <Text style={styles.txt}>Criar</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+              mode={modo}
+              is24Hour={true}
+              display='default'
+              onChange={mudar}
+            />
+          )}
         </View>
+
+        <Text style={styles.label}>Cor:</Text>
+        <TouchableOpacity style={styles.colorButton} onPress={() => setMostrarCores(true)}>
+          <View style={styles.colorSelect}>
+            <Image source={selectedColor.image} style={{ width: 40, height: 40 }} />
+            <Text style={styles.colorText}>{selectedColor.text}</Text>
+          </View>
+        </TouchableOpacity>
+        {mostrarCores && (
+          <View style={styles.colorPicker}>
+            {colors.map((color, index) => (
+              <TouchableOpacity key={index} onPress={() => handleColorSelect(color)} style={styles.colorButton}>
+                <View style={styles.colorSelect}>
+                  <Image source={color.image} style={{ width: 30, height: 30, marginBottom: 20 }} />
+                  <Text style={styles.colorText}>{color.text}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+        <TouchableOpacity onPress={addlembrete}>
+          <View style={styles.submitButton}>
+            <Text style={styles.submitText}>Criar</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
-
 const styles = StyleSheet.create({
-  fundo: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#206550',
-    padding: 0,
-    margin: 0,
-    position: 'absolute',
-  },
-  sair:{
-   width:300,
-   height:50,
-   bottom:30,
-   flexDirection: 'row-reverse',
-   justifyContent: 'space-between',
-  },
   container: {
-    backgroundColor: '#FFFFFF',
-    width: 385,
-    height: 725,
-    borderRadius: 30,
-    borderBottomRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    padding: 0,
-    borderWidth: 10,
-    borderColor: '#206550',
-    margin: 2,
+    flex: 1,
+    backgroundColor: '#206550',
+    paddingHorizontal: 20,
+    paddingTop: 40,
   },
-  container2:{
-    justifyContent: 'center',
+  header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    flexDirection: 'column',
-    width: 340,
-    height: 660,
-    borderRadius: 30,
-    borderColor: '#E4D5C7',
-    backgroundColor: '#236E57',
+    marginBottom: 20,
   },
-  form:{
-   margin:30
+  closeButton: {
+    marginRight: 'auto',
+  },
+  headerText: {
+    fontSize: 35,
+    fontFamily: 'BrunoAce-Regular',
+    color: '#FFFFFF',
+  },
+  form: {},
+  label: {
+    fontSize: 16,
+    color: '#E4D5C7',
+    marginBottom: 10,
   },
   input: {
-    textAlign: 'center',
+    backgroundColor: '#E4D5C7',
     borderRadius: 5,
-    margin: 5,
-    width: 300,
-    height: 50,
-    borderBottomWidth:5,
-    borderColor:'#95877A',
-    backgroundColor:'#E4D5C7',
-    borderWidth: 0,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginBottom: 20,
   },
-  inputmed: {
-    textAlign: 'center',
+  dateTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  dateTimeButton: {
+    backgroundColor: '#E4D5C7',
     borderRadius: 5,
-    margin: 5,
-    width: 130,
-    height: 50,
-    borderColor:'#95877A',
-    backgroundColor:'#E4D5C7',
-    borderWidth: 0,
-    borderBottomWidth:5,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginRight: 10,
   },
-  inputpesquisa:{
-    textAlign: 'center',
-    borderRadius: 5,
-    margin: 5,
-    width: 200,
-    height: 40,
-    borderBottomWidth:5,
-    borderColor:'#174738',
-    backgroundColor:'#FFFFFF',
-    borderWidth: 1,
+  colorButton: {
+    marginBottom: 20,
   },
-  buttonTop: {
+  colorSelect: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  colorText: {
+    marginLeft: 10,
+    color: '#E4D5C7',
+  },
+  colorPicker: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  submitButton: {
+    backgroundColor: '#206550',
+    borderRadius: 12,
+    paddingVertical: 15,
+    alignItems: 'center',
+  },
+  submitText: {
     fontSize: 17,
     fontFamily: 'BrunoAce-Regular',
-    width: 300,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 12,
-    borderColor: '#174738',
-    borderWidth: 0,
-    borderBottomWidth:5,
-    backgroundColor: '#206550',
     color: '#000000',
-    transform: [{ translateY: -5 }],
-  },
-  button: {
-    width: 40,
-    height: 40,
-    margin: 10,
-  },
-  inline: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
-    //backgroundColor: '#236E57',
-    width: 300,
-    height: 70,
-  },
-  inline2: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    textAlign:'center',
-    //backgroundColor: '#236E57',
-    width: 300,
-    height: 70,
-    
-  },
-  inlineView:{
-    display: 'flex',
-    alignItems:'center',
-    flexDirection: 'row',
-    width: 300,
-  },
-  inlineTitulo: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 300,
-    height: 70,
-    marginLeft: 60,
-  },
-  texto: {
-    fontSize: 16,
-    marginLeft: 10,
-    fontFamily: 'BrunoAce-Regular',
-    color:'#E4D5C7',
-    marginTop:10,
-  },
-  texto2: {
-    fontSize: 16,
-    marginLeft: 10,
-    fontFamily: 'BrunoAce-Regular',
-    color:'#000000',
-  },
-  titulo: {
-    fontSize: 35,
-    textAlign: 'center',
-    fontFamily: 'BrunoAce-Regular',
-    color:'#E4D5C7',
-  },
-  texte: {
-    justifyContent:'center',
-    height: 400,
-    width: 250,
-    marginBottom:300,
-    borderColor: '#174738',
-    borderRadius:20,
-    backgroundColor: '#E4D5C7',
-    zIndex: 10, 
-    position: 'absolute', 
-    
-    left: 30  
-
   },
 });
-

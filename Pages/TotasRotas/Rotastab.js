@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Home from '../Home';
 import Chat from '../Chat';
-import Calendario from '../Calendario';
+import Calendario from '../Home';
 import Horarios from '../Horarios';
 import CriarLembrete from '../CriarLembrete';
 
