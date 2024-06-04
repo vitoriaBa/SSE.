@@ -27,7 +27,7 @@ export default function CriarLembrete({ navigation }) {
 
   const mudar = (event, selecionaData) => {
     const atualData = selecionaData || data;
-    setShow(Platform.OS === "ios")
+    
     setData(atualData);
 
     let tempData = new Date(atualData);
