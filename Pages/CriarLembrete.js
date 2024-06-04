@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, Image, Alert, Dimensions, Platform } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useNavigation } from '@react-navigation/native';
@@ -21,26 +20,27 @@ export default function CriarLembrete({ navigation }) {
   const [titulo, setTitulo] = useState('');
   const [texto, setTexto] = useState('');
   const [data, setData] = useState(new Date());
-  const [modo, setModo] = useState('data');
+  const [modo, setModo] = useState('date');
   const [show, setShow] = useState(false);
   const [textodata, setTextodata] = useState('Sem Data Colocada');
 
   const mudar = (event, selecionaData) => {
-    const atualData = selecionaData || data;
-    
-    setData(atualData);
+    if (event.type === 'set') {
+      const atualData = selecionaData || data;
+      setShow(Platform.OS === 'ios'); // Para iOS, DateTimePicker permanece visível até que seja fechado manualmente
+      setData(atualData);
 
-    let tempData = new Date(atualData);
-    let fData = tempData.getDate() + '/' + (tempData.getMonth() + 1) + '/' + tempData.getFullYear();
-    let fTime = "Horas: " + tempData.getHours() + 'minutos ' + tempData.getMinutes();
-    setTextodata(fData + '\n' + fTime);
-
-    console.log(fData + '(' + fTime + ')');
+      let tempData = new Date(atualData);
+      let fData = tempData.getDate() + '/' + (tempData.getMonth() + 1) + '/' + tempData.getFullYear();
+      setTextodata(fData);
+    } else {
+      setShow(false);
+    }
   }
 
-  const showModo = atualData => {
+  const showModo = (currentMode) => {
     setShow(true);
-    setModo(atualData);
+    setModo(currentMode);
   }
 
   async function addlembrete() {
@@ -85,10 +85,10 @@ export default function CriarLembrete({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navi.navigate('Home')} style={styles.closeButton}>
+        <MaterialCommunityIcons name="close-thick" size={50} color="#FFFFFF" />
+      </TouchableOpacity>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navi.navigate('Home')} style={styles.closeButton}>
-          <MaterialCommunityIcons name="close-thick" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
         <Text style={styles.headerText}>Lembretes</Text>
       </View>
 
@@ -110,10 +110,10 @@ export default function CriarLembrete({ navigation }) {
         />
 
         <View style={styles.dateTimeContainer}>
-          <Text style={styles.label}>Data:</Text>
-          <TouchableOpacity style={styles.dateTimeButton} onPress={() => showModo('data')}>
+          <TouchableOpacity style={styles.dateTimeButton} onPress={() => showModo('date')}>
             <Text>{textodata}</Text>
           </TouchableOpacity>
+
           {show && (
             <DateTimePicker
               testID='dateTime'
@@ -158,7 +158,8 @@ export default function CriarLembrete({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#206550',
+    justifyContent: 'center',
+    backgroundColor: '#236E57',
     paddingHorizontal: 20,
     paddingTop: 40,
   },
@@ -168,7 +169,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   closeButton: {
-    marginRight: 'auto',
+    alignItems: 'flex-end',
+    width: 50,
+    backgroundColor: '#236E57',
   },
   headerText: {
     fontSize: 35,
@@ -179,10 +182,12 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     color: '#E4D5C7',
+    fontFamily: 'BrunoAce-Regular',
     marginBottom: 10,
   },
   input: {
     backgroundColor: '#E4D5C7',
+    fontFamily: 'BrunoAce-Regular',
     borderRadius: 5,
     paddingHorizontal: 15,
     paddingVertical: 10,
@@ -209,6 +214,7 @@ const styles = StyleSheet.create({
   },
   colorText: {
     marginLeft: 10,
+    fontFamily: 'BrunoAce-Regular',
     color: '#E4D5C7',
   },
   colorPicker: {
@@ -225,6 +231,6 @@ const styles = StyleSheet.create({
   submitText: {
     fontSize: 17,
     fontFamily: 'BrunoAce-Regular',
-    color: '#000000',
+    color: '#E4D5C7',
   },
 });

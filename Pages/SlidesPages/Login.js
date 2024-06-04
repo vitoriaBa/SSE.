@@ -44,7 +44,7 @@ export default function Login() {
               return navi.navigate('Home');
           }
          else{
-              alert('usuario não encontrado');
+             // alert('usuario não encontrado');
           }
         });
     },[user])

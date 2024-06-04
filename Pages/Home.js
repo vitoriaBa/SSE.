@@ -1,6 +1,6 @@
 import React from 'react'; 
-import { useState,useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView,TouchableOpacity, FlatList,Alert,Dimensions   } from 'react-native';
+import { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity, FlatList, Alert, Dimensions } from 'react-native';
 import { firestore } from "../Firebase"; 
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,7 +11,6 @@ export default function Home() {
   
   const [lembretes, setLembretes] = useState([]);
   
- 
   async function deletar(id) {
     try {
       await deleteDoc(doc(firestore, "LembretePessoais", id)); 
@@ -20,6 +19,16 @@ export default function Home() {
       console.error("Erro ao deletar Lembrete:", error);
     }
   }
+
+  const alertDeletar = (id) =>
+    Alert.alert('Deletar', 'Tem certeza?', [
+      {
+        text: 'Cancelar',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: 'OK', onPress: () => deletar(id) },
+    ]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(firestore, 'LembretePessoais'), (querySnapshot) => {
@@ -33,135 +42,108 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
-  
-  
-
-
   return (
-    <View style={[styles.fundo, { width: windowWidth, height:windowHeight }]}> 
-    <View style={[styles.container ,{ width: windowWidth,height:windowHeight}]}>
-      <View style={[styles.Avisos ,{ width: windowWidth}]} >
+    <View style={[styles.fundo, { width: windowWidth, height: windowHeight }]}> 
+      <View style={[styles.container, { width: windowWidth, height: windowHeight }]}>
+        <View style={[styles.Avisos, { width: windowWidth }]}>
+          <FlatList
+            data={lembretes}
+            renderItem={({ item }) => {
+              // Converter timestamp do Firestore para data legível
+              const data = item.data ? new Date(item.data.seconds * 1000) : null;
 
-      
-
-      <FlatList
-        data={lembretes}
-        renderItem={({ item }) => {
-          return (
-           
-            <View style={[styles.AvisoContainer, { borderColor: item.cor }]}>
-
-            
-     <View style={styles.Titulocontainer}>
-                  <Text style={styles.Titulo}> titulo: <Text style={styles.texto}>{item.titulo}</Text></Text>
-                 
-                  <Text style={styles.data}> Data: <Text style={styles.texto}>{item.data}</Text></Text>
+              return (
+                <View style={[styles.AvisoContainer, { borderColor: item.cor }]}>
+                  <View style={styles.Titulocontainer}>
+                    <Text style={styles.Titulo}>Título: <Text style={styles.texto}>{item.titulo}</Text></Text>
+                    {data && (
+                      <Text style={styles.data}>Data: <Text style={styles.texto}>{data.toLocaleDateString()}</Text></Text>
+                    )}
+                  </View>
+                  <Text style={styles.texto}>Texto: <Text style={styles.texto}>{item.texto}</Text></Text>
+                  <View style={styles.botaoDeletar}>
+                    <TouchableOpacity onPress={() => alertDeletar(item.id)}>
+                      <MaterialCommunityIcons name="delete-empty" size={50} color="#206550" />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <Text style={styles.texto}> texto: <Text style={styles.texto}>{item.texto}</Text></Text>
-             
-
-              <View style={styles.botaoDeletar}>
-                <TouchableOpacity onPress={() => deletar(item.id)}>
-                  <MaterialCommunityIcons name="delete-empty" size={50} color="#206550" />
-                </TouchableOpacity>
-              </View>
-
-            </View>
-          );
-        }}
-      />
+              );
+            }}
+          />
+        </View>
       </View>
     </View>
-    </View>
-   
   );
 }
 
-
-
 const styles = StyleSheet.create({
- fundo:{
-  justifyContent: 'center',
-  alignItems:'center',
-  backgroundColor:'#206550',
-  padding: 0,
-  margin:0,
-  position:'absolute',
-},
-
-  container: {
-    display:'flex',
+  fundo: {
     justifyContent: 'center',
-    alignItems:'center',
-    flexDirection:'column',
-    backgroundColor:'#FFFFFF',
- 
-    height:750,
-    borderRadius:30,
-    borderBottomRadius:50,
-    
+    alignItems: 'center',
+    backgroundColor: '#206550',
     padding: 0,
-    borderWidth:10,
-    borderColor:'#206550',
-    margin:0,
-
+    margin: 0,
+    position: 'absolute',
   },
-  Titulocontainer:{
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    backgroundColor: '#FFFFFF',
+    height: 750,
+    borderRadius: 30,
+    borderBottomRadius: 50,
+    padding: 0,
+    borderWidth: 10,
+    borderColor: '#206550',
+    margin: 0,
+  },
+  Titulocontainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    
   },
-
-
-  Avisos:{
+  Avisos: {
     justifyContent: 'center',
-  alignItems:'center',
- 
+    alignItems: 'center',
   },
-
-
-
-  TituloAviso:{
+  TituloAviso: {
     justifyContent: 'center',
-  alignItems:'center',
-  textAlign:'center',
-  color:'#FFFFFF',
-backgroundColor:'#206550',
-width:200,
-borderTopLeftRadius:100,
-borderTopRightRadius:100,
-marginRight:30,
+    alignItems: 'center',
+    textAlign: 'center',
+    color: '#FFFFFF',
+    backgroundColor: '#206550',
+    width: 200,
+    borderTopLeftRadius: 100,
+    borderTopRightRadius: 100,
+    marginRight: 30,
   },
   usuarioContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
-    position:'relative',
+    position: 'relative',
   },
-
   semanaContainer: {
     // Style your calendar here
   },
   AvisoContainer: {
-    backgroundColor:'#FFFFFF',
+    backgroundColor: '#FFFFFF',
     borderRadius: 18,
-    
     marginBottom: 16,
     shadowColor: '#000',
-    width:350,
-    height:200,
-    borderWidth:3,
-    borderBottomWidth:8,
-
+    width: 350,
+    height: 200,
+    borderWidth: 3,
+    borderBottomWidth: 8,
     justifyContent: 'space-between',
-
   },
- Titulo: {
+  Titulo: {
     fontSize: 16,
     fontWeight: 'bold',
   },
- data: {
+  data: {
     fontSize: 14,
     color: '#555',
     marginBottom: 8,
@@ -170,8 +152,6 @@ marginRight:30,
     fontSize: 14,
     marginBottom: 16,
   },
-
-
   butao: {
     backgroundColor: '#206550', // Button color
     padding: 8,
@@ -182,8 +162,4 @@ marginRight:30,
     color: '#FFF',
     fontWeight: 'bold',
   },
-
- 
 });
-
-

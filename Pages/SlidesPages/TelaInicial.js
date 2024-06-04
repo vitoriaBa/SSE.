@@ -62,7 +62,7 @@ export default function TelaInicial() {
           <View style={styles.bolinhasContainer}>
           
        {/*   <Animated.View style={animatedStyle} />*/}
-
+       <View style={styles.Bolinha1}></View>
             <View style={styles.Bolinha}></View>
             <View style={styles.Bolinha}></View>
           </View>
@@ -184,6 +184,11 @@ color:'#e8e8e8',
   backgroundColor:'#e8e8e8',
 },
 
- 
+Bolinha1:{
+  width:20,
+  borderRadius:50,
+  height:20,
+  backgroundColor:'#174738',
+}
   
 });

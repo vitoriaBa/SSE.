@@ -72,6 +72,7 @@ useFocusEffect(
 
 <View style={styles.Bolinha}></View>
 <View style={styles.Bolinha}></View>
+<View style={styles.Bolinha1}></View>
 
 
 
@@ -242,6 +243,12 @@ color:'#174738',
   borderRadius:50,
   height:20,
   backgroundColor:'#e8e8e8',
+},
+Bolinha1:{
+  width:20,
+  borderRadius:50,
+  height:20,
+  backgroundColor:'#174738',
 }
  
   
