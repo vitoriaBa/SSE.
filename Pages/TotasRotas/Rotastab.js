@@ -46,14 +46,14 @@ options={{
 
 
 
-      <Tab.Screen name="Chat" component={Chat}
+    { /* <Tab.Screen name="Chat" component={Chat}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="chat-processing-outline" color={'#FFFFFF'} size={40} />
         ),
       }}
-      
-    />
+    
+    />*/}
 
 
    {/*   <Tab.Screen name="Horarios" component={Horarios}

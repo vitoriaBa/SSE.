@@ -80,43 +80,49 @@ export default class AgendaScreen extends Component/*<State>*/ {
   loadItems = () => {
     const unsubscribe = onSnapshot(collection(firestore, 'LembretePessoais'), (querySnapshot) => {
       const items = {};
-
+  
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         console.log("Data do documento:", data);
-
-        if (data.data && data.data.seconds && data.data.nanoseconds) {
-          const date = new Date(data.data.seconds * 1000 + data.data.nanoseconds / 1000000);
+  
+        const timestamp = data.data; // Acessando diretamente o campo 'data'
+        const date = timestamp.toDate(); // Convertendo para uma data JavaScript
+        console.log("Data convertida:", date);
+  
+        if (typeof this.formatDate === 'function') {
           const formattedDate = this.formatDate(date); // Chamando a função formatDate corretamente
-
+          console.log("Data formatada:", formattedDate);
+          
           if (!items[formattedDate]) {
             items[formattedDate] = [];
           }
-
+  
           items[formattedDate].push({
             name: data.titulo,
             height: 50,
             day: formattedDate
           });
         } else {
-          console.error("O campo 'data' não está definido corretamente no documento:", doc.id);
+          console.error("A função formatDate não está definida corretamente no escopo da classe.");
         }
       });
-
+  
+      console.log("Itens:", items);
+  
       this.setState({
         items: items
       });
     });
-
+  
     return () => unsubscribe();
   };
-
-/*  formatDate(date) {
+  
+ formatDate(date) {
     const day = date.getDate();
     const month = date.getMonth() + 1; // Os meses começam do zero
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
-  }*/
+  }
 
 
 
@@ -142,6 +148,8 @@ export default class AgendaScreen extends Component/*<State>*/ {
   renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
     const fontSize = isFirst ? 18 : 14;
     const color = isFirst ? 'black' : 'black';
+
+    console.log("Item de reserva:", reservation);
 
     return (
       <TouchableOpacity

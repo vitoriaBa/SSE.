@@ -27,7 +27,7 @@ export default function CriarLembrete({ navigation }) {
   const mudar = (event, selecionaData) => {
     if (event.type === 'set') {
       const atualData = selecionaData || data;
-      setShow(Platform.OS === 'ios'); // Para iOS, DateTimePicker permanece visível até que seja fechado manualmente
+    //  setShow(Platform.OS === 'ios'); // Para iOS, DateTimePicker permanece visível até que seja fechado manualmente
       setData(atualData);
 
       let tempData = new Date(atualData);
