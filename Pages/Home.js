@@ -1,6 +1,6 @@
 import React from 'react'; 
 import { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, FlatList, Alert, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity, FlatList, Alert, Dimensions,ImageBackground } from 'react-native';
 import { firestore } from "../Firebase"; 
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -45,6 +45,11 @@ export default function Home() {
   return (
     <View style={[styles.fundo, { width: windowWidth, height: windowHeight }]}> 
       <View style={[styles.container, { width: windowWidth, height: windowHeight }]}>
+
+<ImageBackground source={require('../assets/fundousuario.png')} style={styles.usuarioContainer}>
+</ImageBackground>
+
+
         <View style={[styles.Avisos, { width: windowWidth }]}>
           <FlatList
             data={lembretes}
@@ -54,17 +59,20 @@ export default function Home() {
 
               return (
                 <View style={[styles.AvisoContainer, { borderColor: item.cor }]}>
-                  <View style={styles.Titulocontainer}>
-                    <Text style={styles.Titulo}>Título: <Text style={styles.texto}>{item.titulo}</Text></Text>
-                    {data && (
-                      <Text style={styles.data}>Data: <Text style={styles.texto}>{data.toLocaleDateString()}</Text></Text>
+                 <View style={styles.Titulocontainer}>
+                  <Text style={styles.Titulo}>{item.titulo}</Text>
+                  {data && (
+                      <Text>{/*Data: */} <Text style={styles.data}>{data.toLocaleDateString()}</Text></Text>
                     )}
-                  </View>
-                  <Text style={styles.texto}>Texto: <Text style={styles.texto}>{item.texto}</Text></Text>
-                  <View style={styles.botaoDeletar}>
+
                     <TouchableOpacity onPress={() => alertDeletar(item.id)}>
-                      <MaterialCommunityIcons name="delete-empty" size={50} color="#206550" />
+                    <MaterialCommunityIcons name="dots-vertical" size={50} color="#206550" />
                     </TouchableOpacity>
+                   
+                  </View>
+                  <Text style={styles.texto}>{/*Texto: */}  <Text style={styles.texto}>{item.texto}</Text></Text>
+                  <View style={styles.botaoDeletar}>
+                   
                   </View>
                 </View>
               );
@@ -101,6 +109,8 @@ const styles = StyleSheet.create({
   },
   Titulocontainer: {
     flexDirection: 'row',
+  
+   // backgroundColor: '#206550',
     justifyContent: 'space-between',
   },
   Avisos: {
@@ -119,11 +129,8 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   usuarioContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-    position: 'relative',
+    width: 200,
+    height:200,
   },
   semanaContainer: {
     // Style your calendar here
@@ -134,23 +141,27 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     shadowColor: '#000',
     width: 350,
+    padding:20,
     height: 200,
     borderWidth: 3,
     borderBottomWidth: 8,
     justifyContent: 'space-between',
   },
   Titulo: {
-    fontSize: 16,
+    fontSize: 26,
+    marginRight:30,
+    fontFamily: 'BrunoAce-Regular',
     fontWeight: 'bold',
   },
   data: {
-    fontSize: 14,
+    fontSize:18,
     color: '#555',
-    marginBottom: 8,
+    marginRight:35,
   },
   texto: {
-    fontSize: 14,
-    marginBottom: 16,
+    fontSize:13,
+    fontFamily: 'BrunoAce-Regular',
+    ///marginBottom: 16,
   },
   butao: {
     backgroundColor: '#206550', // Button color
@@ -159,6 +170,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
+    fontFamily: 'BrunoAce-Regular',
     color: '#FFF',
     fontWeight: 'bold',
   },

@@ -31,7 +31,7 @@ export default function CriarLembrete({ navigation }) {
       setData(atualData);
 
       let tempData = new Date(atualData);
-      let fData = tempData.getDate() + '/' + (tempData.getMonth() + 1) + '/' + tempData.getFullYear();
+      let fData = tempData.getDate() + '/' + tempData.getMonth() + '/' + tempData.getFullYear();
       setTextodata(fData);
     } else {
       setShow(false);
