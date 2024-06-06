@@ -82,7 +82,7 @@ useFocusEffect(
  <TouchableHighlight style={styles.button && styles.buttonHover}
        onPress={() => {
        
-        navi.navigate('LoginScreen');
+        navi.navigate('Login');
       }}
       underlayColor={styles.buttonHover.backgroundColor} 
     >

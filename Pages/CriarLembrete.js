@@ -22,7 +22,7 @@ export default function CriarLembrete({ navigation }) {
   const [data, setData] = useState(new Date());
   const [modo, setModo] = useState('date');
   const [show, setShow] = useState(false);
-  const [textodata, setTextodata] = useState('Sem Data Colocada');
+  const [textodata, setTextodata] = useState('Escolha uma data');
 
   const mudar = (event, selecionaData) => {
     if (event.type === 'set') {
@@ -31,7 +31,7 @@ export default function CriarLembrete({ navigation }) {
       setData(atualData);
 
       let tempData = new Date(atualData);
-      let fData = tempData.getDate() + '/' + tempData.getMonth() + '/' + tempData.getFullYear();
+      let fData = tempData.getDate() + '/' + (tempData.getMonth() + 1) + '/' + tempData.getFullYear();
       setTextodata(fData);
     } else {
       setShow(false);
@@ -52,7 +52,7 @@ export default function CriarLembrete({ navigation }) {
         cor: selectedColor.cor,
       });
       console.log("lembrete cadastrado com ID: ", docRef.id);
-      Alert.alert("Cadastro", "Seu lembrete foi criado com sucesso");
+      Alert.alert(":)", "Seu lembrete foi criado");
       navigation.navigate("Home");
     } catch (error) {
       console.error("Erro ao cadastrar seu lembrete: ", error);
@@ -68,7 +68,7 @@ export default function CriarLembrete({ navigation }) {
 
   const [mostrarCores, setMostrarCores] = useState(false);
   const colors = [
-    { text: 'Tomate', image: require('../assets/tomate.png'), cor: '#FF6347' },
+    { text: 'Tomate', image: require('../assets/tomate.png'), cor: '#FF6347', },
     { text: 'Azul', image: require('../assets/azul.png'), cor: '#72A6E3' },
     { text: 'Banana', image: require('../assets/banana.png'), cor: '#FFE866' },
     { text: 'Uva', image: require('../assets/uva.png'), cor: '#8145E3' },
@@ -108,7 +108,7 @@ export default function CriarLembrete({ navigation }) {
           onChangeText={setTexto}
           value={texto}
         />
-
+ <Text style={styles.label}>Data:</Text>
         <View style={styles.dateTimeContainer}>
           <TouchableOpacity style={styles.dateTimeButton} onPress={() => showModo('date')}>
             <Text>{textodata}</Text>
@@ -129,16 +129,16 @@ export default function CriarLembrete({ navigation }) {
         <Text style={styles.label}>Cor:</Text>
         <TouchableOpacity style={styles.colorButton} onPress={() => setMostrarCores(true)}>
           <View style={styles.colorSelect}>
-            <Image source={selectedColor.image} style={{ width: 40, height: 40 }} />
+            <Image source={selectedColor.image} style={{ width: 30, height: 35 }} />
             <Text style={styles.colorText}>{selectedColor.text}</Text>
           </View>
         </TouchableOpacity>
         {mostrarCores && (
           <View style={styles.colorPicker}>
             {colors.map((color, index) => (
-              <TouchableOpacity key={index} onPress={() => handleColorSelect(color)} style={styles.colorButton}>
+              <TouchableOpacity key={index} onPress={() => handleColorSelect(color)} >
                 <View style={styles.colorSelect}>
-                  <Image source={color.image} style={{ width: 30, height: 30, marginBottom: 20 }} />
+                  <Image source={color.image} style={{ width: 30, height: 35, marginBottom: 20 }} />
                   <Text style={styles.colorText}>{color.text}</Text>
                 </View>
               </TouchableOpacity>
@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     alignItems: 'flex-end',
-    width: 50,
-    backgroundColor: '#236E57',
+    width:350,
+    //backgroundColor: '#FFFFFF',
   },
   headerText: {
     fontSize: 35,
@@ -207,10 +207,12 @@ const styles = StyleSheet.create({
   },
   colorButton: {
     marginBottom: 20,
+    
   },
   colorSelect: {
     flexDirection: 'row',
     alignItems: 'center',
+    
   },
   colorText: {
     marginLeft: 10,
@@ -223,10 +225,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   submitButton: {
-    backgroundColor: '#206550',
-    borderRadius: 12,
-    paddingVertical: 15,
-    alignItems: 'center',
+    width:300,
+    height:50,
+    marginLeft:25,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 12, 
+    borderWidth: 2,
+    borderBottomWidth:5,
+    borderColor: '#174738', 
+    backgroundColor: '#236E57', 
+    transform: [{ translateY: -5 }], 
   },
   submitText: {
     fontSize: 17,

@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import {Alert, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Alert, StyleSheet, Text, View, TouchableOpacity,Dimensions} from 'react-native';
 import {Agenda, DateData, AgendaEntry, AgendaSchedule, } from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import { collection, onSnapshot} from "firebase/firestore"; 
 import { firestore } from "../Firebase"; 
-interface State {
-  items?: AgendaSchedule;
-}
+
 
 
 LocaleConfig.locales['br'] = {
@@ -31,53 +29,42 @@ LocaleConfig.locales['br'] = {
 };
 LocaleConfig.defaultLocale = 'br';
 
-export default class AgendaScreen extends Component/*<State>*/ {
-  state: State = {
-    items: undefined
-  };
-
-   reservationsKeyExtractor = (item, index) => {
-     return `${item?.reservation?.day}${index}`;
-   };
-   
+export default function Calendario() {
+ 
    
 
 
-  render() {
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
     return (
-      <Agenda
-       
-        items={this.state.items}
-        loadItemsForMonth={this.loadItems}
-        //chama o dia atual
-        selected={new Date().toISOString().split('T')[0]}
-        renderItem={this.renderItem}
-        renderEmptyDate={this.renderEmptyDate}
-        rowHasChanged={this.rowHasChanged}
-        showClosingKnob={true}
+      <View style={[styles.fundo, { width: windowWidth, height: windowHeight }]}> 
+      <View style={[styles.container, { width: windowWidth, height: windowHeight }]}>
 
-        //cor do dia no calendario
-         markingType={'period'}
-         markedDates={{
-            '2017-05-08': {textColor: '#43515c'},
-            '2017-05-09': {textColor: '#43515c'},
-            '2017-05-14': {startingDay: true, endingDay: true, color: 'blue'},
-        //    '2017-05-21': {startingDay: true, color: 'blue'},
-        //    '2017-05-22': {endingDay: true, color: 'gray'},
-        //    '2017-05-24': {startingDay: true, color: 'gray'},
-            '2024-05-25': {color: 'gray'},
-           '2017-05-26': {endingDay: true, color: 'gray'}}}
-        monthFormat={'yyyy'}
-         theme={{calendarBackground: '#236E57', agendaKnobColor: '#174738'}}
-         renderDay={this.renderDay}
-         hideExtraDays={false}
-        showOnlySelectedDayItems
-        reservationsKeyExtractor={this.reservationsKeyExtractor}
-      />
+      <Agenda
+      items={{
+    
+        '2024-06-06': [{name: 'Prova', data:'Prova de Geografia'}],
+
+        '2024-06-07': [{name: 'Avaliação', data:'Avaliação de Matematica estudar a tabuada'}],
+        '2024-06-07': [{name: 'Atividade', data:'Atividade livre'}],
+ 
+      }}
+        theme={{calendarBackground: '#206550', agendaKnobColor: '#206550'}}
+      renderItem={(item, isFirst) => (
+        <TouchableOpacity style={styles.item}>
+          <Text style={styles.itemTitulo}>{item.name}</Text>
+          <Text style={styles.itemText}>{item.data}</Text>
+        </TouchableOpacity>
+      )}
+    />
+    </View>
+    </View>
+
     );
+
   }
 
-  loadItems = () => {
+/*  loadItems = () => {
     const unsubscribe = onSnapshot(collection(firestore, 'LembretePessoais'), (querySnapshot) => {
       const items = {};
   
@@ -105,24 +92,24 @@ export default class AgendaScreen extends Component/*<State>*/ {
         } else {
           console.error("A função formatDate não está definida corretamente no escopo da classe.");
         }
-      });
+      });*/
   
-      console.log("Itens:", items);
+     // console.log("Itens:", items);
   
-      this.setState({
+     /* this.setState({
         items: items
       });
-    });
+    });*/
   
-    return () => unsubscribe();
-  };
+    //return () => unsubscribe();
+ // };
   
- formatDate(date) {
+ /*formatDate(date) {
     const day = date.getDate();
     const month = date.getMonth() + 1; // Os meses começam do zero
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
-  }
+  }*/
 
 
 
@@ -138,14 +125,14 @@ export default class AgendaScreen extends Component/*<State>*/ {
     }, 1000);
   };*/
 
-  renderDay = (day) => {
+ /* renderDay = (day) => {
     if (day) {
       return <Text style={styles.customDay}>{day.getDay()}</Text>;
     }
     return <View style={styles.dayItem}/>;
   };
-
-  renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
+*/
+ /* renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
     const fontSize = isFirst ? 18 : 14;
     const color = isFirst ? 'black' : 'black';
 
@@ -160,9 +147,11 @@ export default class AgendaScreen extends Component/*<State>*/ {
         <Text style={{fontSize, color}}>{reservation.name}</Text>
       </TouchableOpacity>
     );
-  };
+  };*/
 
-  renderEmptyDate = () => {
+
+
+ /* renderEmptyDate = () => {
     return (
       <View style={styles.emptyDate}>
         <Text>This is empty date!</Text>
@@ -177,29 +166,48 @@ export default class AgendaScreen extends Component/*<State>*/ {
   timeToString(time: number) {
     const date = new Date(time);
     return date.toISOString().split('T')[0];
-  }
-}
+  }*/
 
-const styles = StyleSheet.create({
-  item: {
-    backgroundColor: 'white',
+
+  const styles = StyleSheet.create({
+    fundo: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#206550',
+      padding: 0,
+      margin: 0,
+      position: 'absolute',
+    },
+    container: {
+      display: 'flex',
+      justifyContent: 'center',
+     // alignItems: 'center',
+      flexDirection: 'column',
+      backgroundColor: '#FFFFFF',
+      height: 750,
+      borderRadius: 30,
+      borderBottomRadius: 50,
+      padding: 0,
+      borderWidth: 10,
+      borderColor: '#206550',
+      margin: 0,
+    },
+    item: {
+      backgroundColor: '#E4D5C7',
     flex: 1,
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
     marginTop: 17
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30
-  },
-  customDay: {
-    margin: 10,
-    fontSize: 24,
-    color: 'green'
-  },
-  dayItem: {
-    marginLeft: 34
-  }
-});
+    },
+    itemTitulo: {
+      color: 'black',
+      fontSize: 16,
+      fontWeight:'bold',
+    },
+    itemText:{
+      color: 'black',
+      fontSize: 16,
+     // fontWeight:'bold',
+    }
+  });

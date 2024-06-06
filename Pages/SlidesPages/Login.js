@@ -29,7 +29,7 @@ export default function Login() {
         function(error){
             var errorCode = error.code;
             var errorMessage = error.message;
-            alert(errorCode, errorMessage);
+            alert('usuario não encontrado');
         }
       )
     }
@@ -41,11 +41,13 @@ export default function Login() {
             if(Initializing) setInitializing(false);
 
             if(user){
+           //   alert('Bem vindo');
               return navi.navigate('Home');
+             
           }
-         else{
-             // alert('usuario não encontrado');
-          }
+       /*  else{
+              alert('usuario não encontrado');
+          }*/
         });
     },[user])
     
@@ -111,7 +113,7 @@ export default function Login() {
     </TouchableOpacity>
 </View>
     </View>
-         <Text>Esqueceu sua senha</Text>
+
 </View>
 
    </ImageBackground>
@@ -138,9 +140,10 @@ const styles = StyleSheet.create({
     height:210,
   },
   titulo: {
-    margin: 10,
-    fontSize: 32,
+    marginTop: 15,
+    fontSize: 50,
     textAlign: 'center',
+    color:'#174738',
     fontFamily:'BrunoAce-Regular',
   },
   input:{
@@ -209,13 +212,12 @@ margin:5,
  },
   opicoes:{
     textAlign:'center',
-    borderRadius:10,
+   
     margin:5,
     width:300,
     height:50,
-     backgroundColor:'#FFFFFF',
-     borderColor:'#BBBBBB',
-     borderWidth: 5,
+    
+   
   }
   
 });
