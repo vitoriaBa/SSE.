@@ -1,72 +1,38 @@
 import React, {Component} from 'react';
-import {Alert, StyleSheet, Text, View, TouchableOpacity,Dimensions} from 'react-native';
-import {Agenda, DateData, AgendaEntry, AgendaSchedule, } from 'react-native-calendars';
+import {Alert, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Agenda, DateData, AgendaEntry, AgendaSchedule} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
-import { collection, onSnapshot} from "firebase/firestore"; 
-import { firestore } from "../Firebase"; 
+import {collection, onSnapshot} from "firebase/firestore"; 
+import {firestore} from "../Firebase"; 
 
-
+interface State {
+  items?: AgendaSchedule;
+}
 
 LocaleConfig.locales['br'] = {
   monthNames: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Decembro'
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
   ],
-  monthNamesShort: ['jan.', 'Fev.', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul.', 'Ago', 'Set.', 'Out.', 'Nov.', 'Dec.'],
-  dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'],
-  dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+  monthNamesShort: ['jan.', 'fev.', 'mar.', 'abr.', 'mai.', 'jun.', 'jul.', 'ago.', 'set.', 'out.', 'nov.', 'dez.'],
+  dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+  dayNamesShort: ['dom.', 'seg.', 'ter.', 'qua.', 'qui.', 'sex.', 'sáb.'],
   today: "hoje"
 };
 LocaleConfig.defaultLocale = 'br';
 
-export default function Calendario() {
- 
-   
+export default class AgendaScreen extends Component<{}, State> {
+  state: State = {
+    items: {}
+  };
 
-
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
-    return (
-      <View style={[styles.fundo, { width: windowWidth, height: windowHeight }]}> 
-      <View style={[styles.container, { width: windowWidth, height: windowHeight }]}>
-
-      <Agenda
-      items={{
-    
-        '2024-06-06': [{name: 'Prova', data:'Prova de Geografia'}],
-
-        '2024-06-07': [{name: 'Avaliação', data:'Avaliação de Matematica estudar a tabuada'}],
-        '2024-06-07': [{name: 'Atividade', data:'Atividade livre'}],
- 
-      }}
-        theme={{calendarBackground: '#206550', agendaKnobColor: '#206550'}}
-      renderItem={(item, isFirst) => (
-        <TouchableOpacity style={styles.item}>
-          <Text style={styles.itemTitulo}>{item.name}</Text>
-          <Text style={styles.itemText}>{item.data}</Text>
-        </TouchableOpacity>
-      )}
-    />
-    </View>
-    </View>
-
-    );
-
+  componentDidMount() {
+    this.loadItems();
   }
 
-/*  loadItems = () => {
+  loadItems = () => {
     const unsubscribe = onSnapshot(collection(firestore, 'LembretePessoais'), (querySnapshot) => {
-      const items = {};
+      const items: AgendaSchedule = {};
   
       querySnapshot.forEach((doc) => {
         const data = doc.data();
@@ -76,85 +42,94 @@ export default function Calendario() {
         const date = timestamp.toDate(); // Convertendo para uma data JavaScript
         console.log("Data convertida:", date);
   
-        if (typeof this.formatDate === 'function') {
-          const formattedDate = this.formatDate(date); // Chamando a função formatDate corretamente
-          console.log("Data formatada:", formattedDate);
-          
-          if (!items[formattedDate]) {
-            items[formattedDate] = [];
-          }
-  
-          items[formattedDate].push({
-            name: data.titulo,
-            height: 50,
-            day: formattedDate
-          });
-        } else {
-          console.error("A função formatDate não está definida corretamente no escopo da classe.");
+        const formattedDate = this.formatDate(date);
+        console.log("Data formatada:", formattedDate);
+        
+        if (!items[formattedDate]) {
+          items[formattedDate] = [];
         }
-      });*/
   
-     // console.log("Itens:", items);
+        items[formattedDate].push({
+          name: data.titulo,
+          texto: data.texto,
+         // height:100
+        });
+      });
   
-     /* this.setState({
+      console.log("Itens:", items);
+  
+      this.setState({
         items: items
       });
-    });*/
+    });
   
-    //return () => unsubscribe();
- // };
+    return () => unsubscribe();
+  };
   
- /*formatDate(date) {
-    const day = date.getDate();
-    const month = date.getMonth() + 1; // Os meses começam do zero
+  formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Os meses começam do zero
     const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }*/
+    return `${year}-${month}-${day}`;
+  }
 
+  render() {
+    return (
+      <Agenda
+        items={this.state.items}
+        loadItemsForMonth={this.loadItems}
+        selected={new Date().toISOString().split('T')[0]}
+        renderItem={this.renderItem}
+        renderEmptyDate={this.renderEmptyDate}
+        rowHasChanged={this.rowHasChanged}
+        showClosingKnob={true}
+        markingType={'period'}
+        markedDates={{
+       //   '2024-05-25': {color: 'gray'},
+      //    '2024-05-26': {endingDay: true, color: 'gray'}
+        }}
+        monthFormat={'yyyy'}
+        theme={{calendarBackground: '#236E57', agendaKnobColor: 'white'}}
+        renderDay={this.renderDay}
+        hideExtraDays={false}
+        showOnlySelectedDayItems
+        reservationsKeyExtractor={this.reservationsKeyExtractor}
+      />
+    );
+  }
 
+  reservationsKeyExtractor = (item, index) => {
+    return `${item?.day}${index}`;
+  };
 
-
-
-     /* const newItems: AgendaSchedule = {};
-      Object.keys(items).forEach(key => {
-        newItems[key] = items[key];
-      });
-      this.setState({
-        items: newItems
-      });
-    }, 1000);
-  };*/
-
- /* renderDay = (day) => {
+  renderDay = (day) => {
     if (day) {
       return <Text style={styles.customDay}>{day.getDay()}</Text>;
     }
     return <View style={styles.dayItem}/>;
   };
-*/
- /* renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
+
+  renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
     const fontSize = isFirst ? 18 : 14;
-    const color = isFirst ? 'black' : 'black';
+    const color = isFirst ? 'white' : 'white';
 
     console.log("Item de reserva:", reservation);
 
     return (
       <TouchableOpacity
-        
         style={[styles.item, {height: reservation.height}]}
         onPress={() => Alert.alert(reservation.name)}
       >
-        <Text style={{fontSize, color}}>{reservation.name}</Text>
+        <Text style={styles.titulo}>{reservation.name}</Text>
+        <Text style={styles.label}>{reservation.texto}</Text>
       </TouchableOpacity>
     );
-  };*/
+  };
 
-
-
- /* renderEmptyDate = () => {
+  renderEmptyDate = () => {
     return (
       <View style={styles.emptyDate}>
-        <Text>This is empty date!</Text>
+        <Text>Sem Lembrete</Text>
       </View>
     );
   };
@@ -162,52 +137,40 @@ export default function Calendario() {
   rowHasChanged = (r1: AgendaEntry, r2: AgendaEntry) => {
     return r1.name !== r2.name;
   };
+}
 
-  timeToString(time: number) {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-  }*/
-
-
-  const styles = StyleSheet.create({
-    fundo: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#206550',
-      padding: 0,
-      margin: 0,
-      position: 'absolute',
-    },
-    container: {
-      display: 'flex',
-      justifyContent: 'center',
-     // alignItems: 'center',
-      flexDirection: 'column',
-      backgroundColor: '#FFFFFF',
-      height: 750,
-      borderRadius: 30,
-      borderBottomRadius: 50,
-      padding: 0,
-      borderWidth: 10,
-      borderColor: '#206550',
-      margin: 0,
-    },
-    item: {
-      backgroundColor: '#E4D5C7',
+const styles = StyleSheet.create({
+  item: {
+    backgroundColor: 'white',
     flex: 1,
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
     marginTop: 17
-    },
-    itemTitulo: {
-      color: 'black',
-      fontSize: 16,
-      fontWeight:'bold',
-    },
-    itemText:{
-      color: 'black',
-      fontSize: 16,
-     // fontWeight:'bold',
-    }
-  });
+  },
+  emptyDate: {
+    height: 15,
+    flex: 1,
+    paddingTop: 30
+  },
+  customDay: {
+    margin: 10,
+    fontSize: 24,
+    color: 'green'
+  },
+  dayItem: {
+    marginLeft: 34
+  },
+  label:{
+    fontSize: 13,
+   // color: '#E4D5C7',
+    fontFamily: 'BrunoAce-Regular',
+    marginBottom: 10,
+  },
+  titulo:{
+    fontSize: 18,
+    color: 'black',
+    fontFamily: 'BrunoAce-Regular',
+    marginBottom: 10,
+  }
+});
