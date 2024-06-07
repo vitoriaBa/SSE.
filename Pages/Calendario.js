@@ -68,7 +68,7 @@ export default class AgendaScreen extends Component<{}, State> {
   
   formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Os meses começam do zero
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Os meses começam do zero 
     const year = date.getFullYear();
     return `${year}-${month}-${day}`;
   }
@@ -89,7 +89,7 @@ export default class AgendaScreen extends Component<{}, State> {
       //    '2024-05-26': {endingDay: true, color: 'gray'}
         }}
         monthFormat={'yyyy'}
-        theme={{calendarBackground: '#236E57', agendaKnobColor: 'white'}}
+        theme={{calendarBackground: '#318B70', agendaKnobColor: 'black'}}
         renderDay={this.renderDay}
         hideExtraDays={false}
         showOnlySelectedDayItems

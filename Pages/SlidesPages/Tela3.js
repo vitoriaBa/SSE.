@@ -58,11 +58,11 @@ useFocusEffect(
 <View style={styles.containertexto}>
 
 <Text style={styles.titulo}>
-      PROTEÇÃO E SEGURANÇA
+Acessibilidade e comunicação
       </Text> 
 
        <Text style={styles.texto}>
-      Para uma maior segurança no estabelecimento educacional.
+       Tenha Uma maior Acessibilidade ao conversar com diversos usuários.
       </Text>
 
  <View>

@@ -10,6 +10,7 @@ import Tela3 from '../SlidesPages/Tela3';
 import Login from '../SlidesPages/Login';  
 import Rotastab from '../TotasRotas/Rotastab'; 
 import Usuario from '../Usuario'; 
+import AlterarLembrete from '../AlterarLembrete'; 
 
 
 
@@ -26,6 +27,7 @@ export default function RotasScreen() {
         <Tab.Screen name="Login" component={Login} />
         <Tab.Screen name="Rotastab" component={Rotastab} />
         <Tab.Screen name="Usuario" component={Usuario} />
+        <Tab.Screen name="AlterarLembrete" component={AlterarLembrete} />
       </Tab.Navigator>
     
   );

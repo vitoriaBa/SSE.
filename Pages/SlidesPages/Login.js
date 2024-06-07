@@ -94,6 +94,7 @@ export default function Login() {
     style={styles.input}
     placeholder="Senha"
     onChangeText={(senha) => setSenha(senha)}
+    secureTextEntry={true}
     value={senha}
     />
 

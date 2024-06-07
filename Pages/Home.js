@@ -20,14 +20,23 @@ export default function Home() {
     }
   }
 
-  const alertDeletar = (id) =>
-    Alert.alert('Deletar', 'Tem certeza?', [
+  const alertDeletar = (id, titulo, texto, data) =>
+    Alert.alert('Deseja excluir ou alterar esse lembrete', '', [
       {
         text: 'Cancelar',
         onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
        
       },
-      { text: 'OK', onPress: () => deletar(id) },
+      { text: 'Sair', 
+      onPress: () => deletar(id),
+      color:'red',
+    },
+    { text: 'Alterar', 
+    onPress: () => navi.navigate('AlterarLembrete', { id, titulo, texto, data }),
+      style: 'default',
+      color:'green',
+    },
     ]);
 
   useEffect(() => {

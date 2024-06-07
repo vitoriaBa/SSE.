@@ -23,7 +23,7 @@ export default function Tela2() {
   }
 
   // animacao da bolinha
-/*  const larguraAnimada = useSharedValue(10);
+ const larguraAnimada = useSharedValue(10);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -34,7 +34,7 @@ export default function Tela2() {
     };
   });
 
-  const iniciarAnimacao = useCallback(() => {
+/*  const iniciarAnimacao = useCallback(() => {
     larguraAnimada.value = withTiming(70, { duration: 500 });
   }, [larguraAnimada]);
 
@@ -60,11 +60,11 @@ export default function Tela2() {
 <View style={styles.containertexto}>
 
 <Text style={styles.titulo}>
-      PROTEÇÃO E SEGURANÇA
+Produtividade e Organização
       </Text> 
 
        <Text style={styles.texto}>
-      Para uma maior segurança no estabelecimento educacional.
+       Focado em melhorar a produtividade  do usuário.
       </Text>
 
  <View>
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
     fontFamily:'BrunoAce-Regular',
   },
    texto: {
+    margin:3,
     fontSize: 16,
     textAlign: 'center',
     fontFamily:'BrunoAce-Regular',
