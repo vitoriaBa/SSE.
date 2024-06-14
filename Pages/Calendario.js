@@ -16,14 +16,15 @@ LocaleConfig.locales['br'] = {
   ],
   monthNamesShort: ['jan.', 'fev.', 'mar.', 'abr.', 'mai.', 'jun.', 'jul.', 'ago.', 'set.', 'out.', 'nov.', 'dez.'],
   dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-  dayNamesShort: ['dom.', 'seg.', 'ter.', 'qua.', 'qui.', 'sex.', 'sáb.'],
+  dayNamesShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
   today: "hoje"
 };
 LocaleConfig.defaultLocale = 'br';
 
 export default class AgendaScreen extends Component<{}, State> {
   state: State = {
-    items: {}
+    items: {},
+    markedDates: {}
   };
 
   componentDidMount() {
@@ -32,7 +33,9 @@ export default class AgendaScreen extends Component<{}, State> {
 
   loadItems = () => {
     const unsubscribe = onSnapshot(collection(firestore, 'LembretePessoais'), (querySnapshot) => {
-      const items: AgendaSchedule = {};
+    //  const items: AgendaSchedule = {};
+      const items = {};
+      const markedDates = {};
   
       querySnapshot.forEach((doc) => {
         const data = doc.data();
@@ -52,14 +55,17 @@ export default class AgendaScreen extends Component<{}, State> {
         items[formattedDate].push({
           name: data.titulo,
           texto: data.texto,
+          cor: data.cor,
          // height:100
         });
+        markedDates[formattedDate] = { marked: true, dotColor: data.cor };
       });
   
       console.log("Itens:", items);
   
       this.setState({
-        items: items
+        items: items,
+        markedDates: markedDates
       });
     });
   
@@ -81,15 +87,30 @@ export default class AgendaScreen extends Component<{}, State> {
         selected={new Date().toISOString().split('T')[0]}
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
-        rowHasChanged={this.rowHasChanged}
+        rowHasChanged={(r1, r2) => r1.name !== r2.name}
         showClosingKnob={true}
         markingType={'period'}
-        markedDates={{
-       //   '2024-05-25': {color: 'gray'},
-      //    '2024-05-26': {endingDay: true, color: 'gray'}
+        markedDates={this.state.markedDates}
+        monthNames={'yyyy'}
+        
+        
+       
+
+        theme={{
+          calendarBackground: '#318B70',
+          agendaDayTextColor:'#318B70',
+          textMonthFontSize: 15,
+          //dayTextColor: 'green',
+          monthTextColor: '#ffff',
+          dayTextColor: 'black', 
+          textMonthFontFamily:'BrunoAce-Regular',
+        textDayHeaderFontFamily:'BrunoAce-Regular',
+          agendaKnobColor: 'black',
+
+          selectedDotColor: 'white', 
+          dotStyle: { width: 25, height: 5, borderRadius: 5, marginTop: 1 },
         }}
-        monthFormat={'yyyy'}
-        theme={{calendarBackground: '#318B70', agendaKnobColor: 'black'}}
+        
         renderDay={this.renderDay}
         hideExtraDays={false}
         showOnlySelectedDayItems
@@ -122,14 +143,20 @@ export default class AgendaScreen extends Component<{}, State> {
       >
         <Text style={styles.titulo}>{reservation.name}</Text>
         <Text style={styles.label}>{reservation.texto}</Text>
+      
+        <TouchableOpacity onPress={() => this.editarLembrete(reservation)}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.excluirLembrete(reservation)}>
       </TouchableOpacity>
+      </TouchableOpacity>
+
     );
   };
 
   renderEmptyDate = () => {
     return (
       <View style={styles.emptyDate}>
-        <Text>Sem Lembrete</Text>
+        <Text style={{ color: 'black' }}>Sem lembretes salvos</Text>
       </View>
     );
   };
@@ -141,7 +168,7 @@ export default class AgendaScreen extends Component<{}, State> {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: 'white',
+    backgroundColor: '#174738',
     flex: 1,
     borderRadius: 5,
     padding: 10,

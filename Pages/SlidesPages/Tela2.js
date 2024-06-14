@@ -23,7 +23,7 @@ export default function Tela2() {
   }
 
   // animacao da bolinha
- const larguraAnimada = useSharedValue(10);
+ /*const larguraAnimada = useSharedValue(10);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -33,7 +33,7 @@ export default function Tela2() {
       borderRadius: 50,
     };
   });
-
+*/
 /*  const iniciarAnimacao = useCallback(() => {
     larguraAnimada.value = withTiming(70, { duration: 500 });
   }, [larguraAnimada]);

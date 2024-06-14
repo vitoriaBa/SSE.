@@ -28,7 +28,7 @@ export default function Home() {
         style: 'cancel',
        
       },
-      { text: 'Sair', 
+      { text: 'Deletar', 
       onPress: () => deletar(id),
       color:'red',
     },
