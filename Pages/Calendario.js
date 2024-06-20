@@ -168,7 +168,7 @@ export default class AgendaScreen extends Component<{}, State> {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: '#174738',
+    backgroundColor: '#E4D5C7',
     flex: 1,
     borderRadius: 5,
     padding: 10,

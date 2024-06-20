@@ -1,21 +1,55 @@
 import React from 'react'; 
 import { useState,useEffect } from 'react';
 import { Text, View, StyleSheet, Image,ScrollView,TouchableOpacity, FlatList,Alert,Dimensions ,ImageBackground  } from 'react-native';
+
 import { firestore } from "../Firebase"; 
-import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
+import { collection, onSnapshot, doc ,getFirestore,query,where} from "firebase/firestore"; 
+import { getAuth,onAuthStateChanged   } from 'firebase/auth';
+
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Home() {
+export default function Usuario() {
+    //responsividade da tela
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
+
   const navi = useNavigation();
   const [dados, setDados] = useState([]);
   
  
+  //"puxa" o id do usuario
+  const [authInitialized, setAuthInitialized] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const auth = getAuth();
 
+
+
+
+  //essa parte é para 'achar' o uid
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(firestore, 'dadosAluno'), (querySnapshot) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+        setAuthInitialized(true);
+      } else {
+      
+        setUserId(null);
+        setAuthInitialized(true);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+  
+  //essa puxa a collection
+  useEffect(() => {
+    if (!authInitialized || !userId) return;
+
+    const q = query(collection(firestore, 'dadosAluno'), where('userId', '==', userId));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const data = [];
       querySnapshot.forEach((doc) => {
         data.push({ ...doc.data(), id: doc.id });
@@ -24,7 +58,7 @@ export default function Home() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [authInitialized, userId]);
 
   
   
@@ -51,13 +85,7 @@ export default function Home() {
 </ImageBackground>
 
    
-     <ImageBackground  style={styles.cartao} source={require('../assets/fundocartao.png')}>
-
-    
-   <Image style={styles.logo} source={require('../assets/LogoBranca.png')} ></Image>
    
-     <Text style={styles.dadoscartao}>2545 54561 16546 1616</Text>
-    </ImageBackground>
 
       
       <FlatList
@@ -66,6 +94,14 @@ export default function Home() {
           return (
            
             <View style={[styles.AvisoContainer, { borderColor: item.cor }]}>
+            
+<ImageBackground  style={styles.cartao} source={require('../assets/fundocartao.png')}>
+
+    
+<Image style={styles.logo} source={require('../assets/LogoBranca.png')} ></Image>
+
+  <Text style={styles.dadoscartao}>{item.dadoscartao}</Text>
+ </ImageBackground>
 
             
      <View style={styles.dadoscontainer}>
@@ -73,7 +109,7 @@ export default function Home() {
      <Text style={styles.texto}>{item.nome}</Text>
     
     <Text style={styles.Titulo}>Instituição de Ensino: </Text>     
-    <Text style={styles.texto}>{item.Instituicao}</Text>        
+    <Text style={styles.texto}>{item.instituicao}</Text>        
     
     <Text style={styles.Titulo}> Curso/Série/Ensino: </Text>
     <Text style={styles.texto}>{item.cursos}</Text>
@@ -82,8 +118,10 @@ export default function Home() {
                  <Text style={styles.texto}>{item.matricula}</Text>
 
                 <Text style={styles.Titulo}> Data de Nacimento:</Text>
-                 <Text style={styles.texto}>{item.dataNct}</Text>
+           
                
+                 <Text style={styles.Titulo}> Genero</Text>
+                 <Text style={styles.texto}>{item. genero}</Text>
                 </View>
                           {/* close-thick */ }
 

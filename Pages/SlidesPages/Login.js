@@ -21,36 +21,38 @@ export default function Login() {
   
     const navi = useNavigation();
  
-    function login(){
-
-      // const app = initializeApp(Firebase);
-    
-       signInWithEmailAndPassword(auth,email,senha).catch(
-        function(error){
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            alert('usuario não encontrado');
-        }
-      )
-    }
-    
-    useEffect(()=>{
-      //eu mudei muito aqui
-   onAuthStateChanged(auth, (user) =>{
-            setUser(user);
-            if(Initializing) setInitializing(false);
-
-            if(user){
-           //   alert('Bem vindo');
-              return navi.navigate('Home');
-             
-          }
-       /*  else{
-              alert('usuario não encontrado');
-          }*/
+    function login() {
+      signInWithEmailAndPassword(auth, email, senha)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // Login bem-sucedido, redirecionar para a tela inicial, por exemplo
+          navi.navigate('Home');
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          alert('Usuário não encontrado');
         });
-    },[user])
+    }
+    /*eu mudei essa parte do function login() */
     
+
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setUser(user);
+        if (Initializing) setInitializing(false);
+    
+        if (user) {
+          const userId = user.uid;
+          
+          navi.navigate('Home', userId);
+        } else {
+          // Usuário não está autenticado, fazer o que for necessário
+        }
+      });
+    
+      return () => unsubscribe();
+    }, [user]); // user deve ser uma dependência válida para useEffect
     
     
    

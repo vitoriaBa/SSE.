@@ -1,16 +1,29 @@
 import React from 'react'; 
 import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet,Image ,ScrollView, TouchableOpacity, FlatList, Alert, Dimensions,ImageBackground } from 'react-native';
+
 import { firestore } from "../Firebase"; 
-import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore"; 
+import { collection, onSnapshot, deleteDoc, doc ,getFirestore,query,where} from "firebase/firestore"; 
+import { getAuth,onAuthStateChanged   } from 'firebase/auth';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 export default function Home() {
+
+  //responsividade da tela
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
+
   const navi = useNavigation();
   const [lembretes, setLembretes] = useState([]);
   
+  //"puxa" o id do usuario
+  const [authInitialized, setAuthInitialized] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const auth = getAuth();
+
+
+//deletar
   async function deletar(id) {
     try {
       await deleteDoc(doc(firestore, "LembretePessoais", id)); 
@@ -20,6 +33,8 @@ export default function Home() {
     }
   }
 
+
+  //tres pontinhos do lado para as opçoes
   const alertDeletar = (id, titulo, texto, data) =>
     Alert.alert('Deseja excluir ou alterar esse lembrete', '', [
       {
@@ -39,18 +54,45 @@ export default function Home() {
     },
     ]);
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(firestore, 'LembretePessoais'), (querySnapshot) => {
-      const data = [];
-      querySnapshot.forEach((doc) => {
-        data.push({ ...doc.data(), id: doc.id });
+    //colection lembrete
+    /*const userId = auth.currentUser.uid? auth.currentUser.uid : null;
+    const auth = getAuth();*/
+
+
+    //essa parte é para 'achar' o uid
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUserId(user.uid);
+          setAuthInitialized(true);
+        } else {
+        
+          setUserId(null);
+          setAuthInitialized(true);
+        }
       });
-      setLembretes(data);
-    });
+  
+      return () => unsubscribe();
+    }, []);
+    
+    useEffect(() => {
+      if (!authInitialized || !userId) return;
+  
+      const q = query(collection(firestore, 'LembretePessoais'), where('userId', '==', userId));
+  
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const data = [];
+        querySnapshot.forEach((doc) => {
+          data.push({ ...doc.data(), id: doc.id });
+        });
+        setLembretes(data);
+      });
+  
+      return () => unsubscribe();
+    }, [authInitialized, userId]);
 
-    return () => unsubscribe();
-  }, []);
 
+//eu tirei o texto com o nome do usuario
   return (
     <View style={[styles.fundo, { width: windowWidth, height: windowHeight }]}> 
       <View style={[styles.container, { width: windowWidth, height: windowHeight }]}>
@@ -64,7 +106,7 @@ export default function Home() {
 </TouchableOpacity>
 </View>
 <Text style={styles.textoususario}  >Olá</Text>
-<Text style={styles.textoususario}>Cadu</Text>
+
 </ImageBackground>
 
 

@@ -3,8 +3,11 @@ import { Text, View, StyleSheet, TouchableOpacity, TextInput, Image, Alert, Dime
 import { useFonts } from 'expo-font';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+
 import { firestore } from "../Firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { auth } from '../Firebase';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function CriarLembrete({ navigation }) {
@@ -23,6 +26,10 @@ export default function CriarLembrete({ navigation }) {
   const [modo, setModo] = useState('date');
   const [show, setShow] = useState(false);
   const [textodata, setTextodata] = useState('Escolha uma data');
+
+  //puxar o id=uid do usuario
+  const user = auth.currentUser;
+    const userId = user.uid; 
 
   const mudar = (event, selecionaData) => {
     if (event.type === 'set') {
@@ -50,6 +57,7 @@ export default function CriarLembrete({ navigation }) {
         texto: texto,
         data: data,
         cor: selectedColor.cor,
+        userId: userId, 
       });
       console.log("lembrete cadastrado com ID: ", docRef.id);
       Alert.alert(":)", "Seu lembrete foi criado");
