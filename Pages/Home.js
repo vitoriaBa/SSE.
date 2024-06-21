@@ -92,7 +92,7 @@ export default function Home() {
     }, [authInitialized, userId]);
 
 
-//eu tirei o texto com o nome do usuario
+//eu tirei o texto com o nome do
   return (
     <View style={[styles.fundo, { width: windowWidth, height: windowHeight }]}> 
       <View style={[styles.container, { width: windowWidth, height: windowHeight }]}>
